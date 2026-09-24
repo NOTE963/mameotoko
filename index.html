@@ -114,72 +114,16 @@
   #tapzone { position:absolute; inset:0; z-index:50; display:flex; flex-direction:column; }
   .tapHalf { flex:1; }
 
-  #startScreen, #overScreen, #rankScreen, #vsMenuScreen, #vsWaitScreen, #vsCountdownScreen, #vsResultScreen,
-  #rkMenuScreen, #rkWaitScreen, #rkResultScreen, #collectionScreen {
+  #startScreen, #overScreen, #rankScreen,
+  #collectionScreen {
     position:absolute; inset:0; background:radial-gradient(circle at 50% 30%, rgba(30,10,10,0.92), rgba(0,0,0,0.94) 75%); color:#eee;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center; padding:30px; z-index:80; gap:14px;
   }
-  #overScreen, #rankScreen, #vsMenuScreen, #vsWaitScreen, #vsCountdownScreen, #vsResultScreen,
-  #rkMenuScreen, #rkWaitScreen, #rkResultScreen, #rkGameScreen, #collectionScreen { display:none; }
+  #overScreen, #rankScreen,
+  #collectionScreen { display:none; }
   #rankScreen, #collectionScreen { z-index:85; overflow-y:auto; padding:40px 22px 26px; justify-content:flex-start; }
   #rankScreen, #rankScreen *, #collectionScreen, #collectionScreen * { touch-action:pan-y; }
-  #vsMenuScreen, #vsWaitScreen, #vsResultScreen, #rkMenuScreen, #rkWaitScreen, #rkResultScreen { z-index:85; overflow-y:auto; }
-  #vsCountdownScreen, #rkCountdownScreen { z-index:96; background:rgba(0,0,0,0.4); }
-
-  #rkRankBadgeRow { display:flex; align-items:center; gap:12px; }
-  #rkRankIconWrap { width:44px; height:44px; border-radius:50%; overflow:hidden; border:2px solid rgba(255,255,255,0.35); position:relative; flex-shrink:0; }
-  #rkRankIconImg { position:absolute; top:0; left:0; height:44px; width:396px; image-rendering:auto; }
-  #rkRankTextWrap { text-align:left; }
-  #rkRankName { font-size:15px; color:#ffd23b; letter-spacing:1px; }
-  #rkRankRP { font-size:11px; color:#999; }
-
-  #rkResultIconWrap { width:110px; height:110px; border-radius:50%; overflow:hidden; border:3px solid rgba(255,255,255,0.4); position:relative; box-shadow:0 0 26px rgba(0,0,0,0.6); }
-  #rkResultIconImg { position:absolute; top:0; left:0; height:110px; width:990px; }
-  #rkResultRankName { font-size:16px; color:#ffd23b; letter-spacing:1px; }
-  #rkResultRPChange { font-size:14px; }
-
-  #rkGameScreen {
-    position:absolute; inset:0; z-index:80; background:transparent; overflow:hidden;
-  }
-  #rkOppZone {
-    position:absolute; top:0; left:0; right:0; height:42%;
-    touch-action:none;
-  }
-  #rkMyZone {
-    position:absolute; bottom:0; left:0; right:0; height:42%;
-    touch-action:none;
-  }
-  #rkLaneGuides { position:absolute; inset:0; z-index:1; pointer-events:none; opacity:0.14; }
-  #rkOppDot, #rkMyDot {
-    position:absolute; width:40px; height:40px; margin-left:-20px; margin-top:-20px;
-    border-radius:50%; display:flex; align-items:center; justify-content:center;
-    font-size:10px; color:#fff; text-shadow:0 0 4px rgba(0,0,0,0.9);
-    transition:left 0.14s cubic-bezier(.3,.9,.3,1);
-    z-index:5;
-  }
-  #rkMyDot { background:rgba(255,80,80,0.85); border:2px solid #fff; bottom:19%; top:auto; }
-  #rkOppDot { background:rgba(80,140,255,0.85); border:2px solid #fff; top:19%; }
-  #rkProjLayer { position:absolute; inset:0; z-index:4; pointer-events:none; }
-  .rkProj { position:absolute; width:34px; height:auto; margin-left:-17px; margin-top:-38px; filter:brightness(0.9) contrast(1.1); pointer-events:none; }
-  #rkOppHud, #rkMyHud {
-    position:absolute; left:0; right:0; text-align:center;
-    z-index:6; pointer-events:none; display:flex; justify-content:center;
-    align-items:baseline; gap:8px;
-  }
-  #rkOppHud { top:14px; }
-  #rkMyHud { bottom:10px; }
-  .rkHpLabel {
-    font-size:11px; letter-spacing:1px; color:rgba(255,255,255,0.75);
-    text-shadow:0 0 4px rgba(0,0,0,0.9);
-    max-width:110px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
-  }
-  .rkHearts { font-size:18px; letter-spacing:4px; text-shadow:0 0 4px rgba(0,0,0,0.9); }
-  #rkFireHint {
-    position:absolute; top:6px; right:10px; font-size:10px; color:rgba(255,255,255,0.55);
-    z-index:6; pointer-events:none;
-  }
-
   #collectionGrid {
     display:grid; grid-template-columns:1fr 1fr; gap:14px;
     width:100%; max-width:340px; margin-top:6px;
@@ -295,29 +239,6 @@
   #rankList li .tm { color:#ffd23b; font-weight:600; }
   #rankStatus { font-size:12px; color:#888; min-height:16px; }
 
-  #playerOpp { position:absolute; left:14%; top:50%; width:46px; height:22px; transform:translate(-50%,-50%); z-index:19; pointer-events:none; transition:top 0.16s cubic-bezier(.3,.9,.3,1); }
-  #playerOpp .shadow { width:100%; height:100%; background:radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 75%); }
-  #playerOpp .mark { position:absolute; left:50%; top:-9px; transform:translateX(-50%); width:16px; height:16px; border-radius:50%; background:transparent !important; border:3px solid #3b8aff; opacity:0.9; }
-
-  #vsStatus {
-    position:absolute; bottom:38px; left:0; right:0; text-align:center;
-    color:#ccc; font-size:11px; letter-spacing:1px; z-index:40; pointer-events:none;
-    text-shadow:0 0 4px rgba(0,0,0,0.9);
-  }
-
-  #joinRow input#roomIdInput {
-    background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.35);
-    color:#fff; font-family:inherit; font-size:16px; padding:8px 10px;
-    border-radius:4px; width:110px; letter-spacing:4px; text-align:center;
-  }
-  #roomCodeDisplay {
-    font-size:42px; letter-spacing:10px; color:#ffd23b;
-    text-shadow:0 0 14px rgba(255,210,59,0.6);
-  }
-  #countdownNum {
-    font-size:110px; color:#ff2a2a; text-shadow:0 0 30px rgba(255,0,0,0.8);
-    font-weight:bold;
-  }
   #giantFace {
     width:96px; height:96px; border-radius:50%;
     object-fit:cover; object-position:center 30%;
@@ -334,7 +255,6 @@
   <div id="laneGuides"></div>
   <div id="lanes"></div>
   <div id="player"><div class="shadow"></div><div class="mark"></div></div>
-  <div id="playerOpp" style="display:none;"><div class="shadow"></div><div class="mark"></div></div>
 
   <div id="vignette"></div>
   <div id="scanlines"></div>
@@ -347,7 +267,6 @@
   <button id="muteBtn">🔊</button>
   <button id="reloadBtn" title="リロード">🔄</button>
   <div id="score">生存タイム: <span id="scoreVal">0.0</span>秒</div>
-  <div id="vsStatus" style="display:none;"></div>
 
   <div id="jumpscare"><img id="jumpscareImg" alt=""></div>
   <div id="redflash"></div>
@@ -372,7 +291,6 @@
       <button class="btn" id="startBtn">生き残る</button>
     </div>
     <div class="btnRow">
-      <button class="btn secondary" id="vsBtn">対戦</button>
       <button class="btn secondary" id="rankBtn">ランキング</button>
     </div>
     <button class="btn secondary small" id="collectionBtn">コレクション</button>
@@ -405,10 +323,6 @@
 
   <div id="rankScreen">
     <div class="title">ランキング</div>
-    <div id="rankTabRow" class="btnRow">
-      <button class="btn small" id="rankTabTime">タイム</button>
-      <button class="btn secondary small" id="rankTabRank">ランク</button>
-    </div>
     <div class="weekLabel" id="weekLabel">ランキング</div>
     <div id="nameRow">
       <input id="usernameInput" type="text" maxlength="10" placeholder="ユーザーネーム">
@@ -419,54 +333,6 @@
     <button class="btn secondary" id="rankBackBtn">ホームへ戻る</button>
   </div>
 
-
-  <div id="rkWaitScreen">
-    <div class="title">相手を探しています</div>
-    <div class="weekLabel" id="rkWaitDots">.</div>
-    <button class="btn secondary" id="rkCancelBtn">キャンセル</button>
-  </div>
-
-  <div id="rkCountdownScreen">
-    <div id="rkCountdownNum">3</div>
-  </div>
-
-  <div id="rkGameScreen">
-    <div id="rkLaneGuides"></div>
-    <div id="rkOppZone"></div>
-    <div id="rkMyZone"></div>
-    <div id="rkProjLayer"></div>
-    <div id="rkOppDot"></div>
-    <div id="rkMyDot"></div>
-    <div id="rkOppHud"><span class="rkHpLabel" id="rkOppNameLabel">相手</span><span class="rkHearts" id="rkOppHearts">●●</span></div>
-    <div id="rkMyHud"><span class="rkHpLabel">あなた</span><span class="rkHearts" id="rkMyHearts">●●</span></div>
-    <div id="rkFireHint">上タップで発射 / 下でレーン移動</div>
-  </div>
-
-  <div id="rkResultScreen">
-    <div class="title" id="rkResultTitle">結果</div>
-    <div id="rkResultIconWrap"><img id="rkResultIconImg" src="data:image/jpeg;base64,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"></div>
-    <div id="rkResultRankName">-</div>
-    <div id="rkResultRPChange">-</div>
-    <button class="btn secondary" id="rkResultHomeBtn">ホームへ</button>
-  </div>
-
-  <div id="vsWaitScreen">
-    <div class="title">相手を待っています</div>
-    <div class="sub" id="vsWaitSub">このルームIDを相手に伝えてください</div>
-    <div id="roomCodeDisplay">------</div>
-    <div class="weekLabel" id="vsWaitDots">.</div>
-    <button class="btn secondary" id="cancelRoomBtn">キャンセル</button>
-  </div>
-
-  <div id="vsCountdownScreen">
-    <div id="countdownNum">3</div>
-  </div>
-
-  <div id="vsResultScreen">
-    <div class="title" id="vsResultTitle">結果待ち</div>
-    <div id="vsResultBody" class="sub"></div>
-    <button class="btn secondary" id="vsResultHomeBtn" style="display:none;">ホームへ</button>
-  </div>
 </div>
 
 <script>
@@ -520,34 +386,11 @@
   const saveNameBtn = document.getElementById('saveNameBtn');
   const rankList = document.getElementById('rankList');
   const rankStatus = document.getElementById('rankStatus');
-  const rankTabTime = document.getElementById('rankTabTime');
-  const rankTabRank = document.getElementById('rankTabRank');
-  const playerOpp = document.getElementById('playerOpp');
-  const vsStatus = document.getElementById('vsStatus');
-  const vsBtn = document.getElementById('vsBtn');
-  const vsMenuScreen = document.getElementById('vsMenuScreen');
-  const createRoomBtn = document.getElementById('createRoomBtn');
-  const randomMatchBtn = document.getElementById('randomMatchBtn');
-  const roomIdInput = document.getElementById('roomIdInput');
-  const joinRoomBtn = document.getElementById('joinRoomBtn');
-  const vsMenuStatus = document.getElementById('vsMenuStatus');
-  const vsMenuBackBtn = document.getElementById('vsMenuBackBtn');
-  const vsWaitScreen = document.getElementById('vsWaitScreen');
-  const roomCodeDisplay = document.getElementById('roomCodeDisplay');
-  const vsWaitSub = document.getElementById('vsWaitSub');
-  const vsWaitDots = document.getElementById('vsWaitDots');
-  const cancelRoomBtn = document.getElementById('cancelRoomBtn');
-  const vsCountdownScreen = document.getElementById('vsCountdownScreen');
-  const countdownNum = document.getElementById('countdownNum');
-  const vsResultScreen = document.getElementById('vsResultScreen');
-  const vsResultTitle = document.getElementById('vsResultTitle');
-  const vsResultBody = document.getElementById('vsResultBody');
-  const vsResultHomeBtn = document.getElementById('vsResultHomeBtn');
   const installBtn = document.getElementById('installBtn');
   const iosHint = document.getElementById('iosHint');
 
-  const LANES = [18, 50, 82]; // ranked duel: percent x positions
-  const ROWS = [27, 50, 73];  // solo / vs: horizontal lanes (percent from top)
+  const LANES = [18, 50, 82]; // lane count (3)
+  const ROWS = [27, 50, 73];  // solo: horizontal lanes (percent from top)
   const PLAYER_X = 14;        // player x position (percent)
   const SPAWN_X = 112;        // giants enter from beyond the right edge
   const lineA = document.createElement('div');
@@ -772,50 +615,9 @@
           });
         }
         const top = deduped.slice(0,30);
-        const seasonKey = rkSeasonKey(new Date());
-        const rpFetches = top.map(r=>db.collection('rank_progress').doc(seasonKey+'_'+r.id).get().catch(()=>null));
-        Promise.all(rpFetches).then(rpDocs=>{
-          top.forEach((d,idx)=>{
-            const rpDoc = rpDocs[idx];
-            const rp = (rpDoc && rpDoc.exists) ? (rpDoc.data().rp||0) : 0;
-            const info = rkRankInfo(rp);
-            const li = document.createElement('li');
-            li.innerHTML = '<span class="rk">'+(idx+1)+'</span><span class="nm">'+escapeHtml(d.name||'???')+' <span style="color:#888;font-size:10px;">['+escapeHtml(info.name)+']</span></span><span class="tm">'+Number(d.time).toFixed(1)+'秒</span>';
-            rankList.appendChild(li);
-          });
-        });
-      })
-      .catch(e=>{
-        console.error(e);
-        rankStatus.textContent = '読み込みに失敗しました: ' + (e && (e.code || e.message) || '不明なエラー');
-      });
-  }
-
-  function loadRankPointsBoard(){
-    rankStatus.textContent = '読み込み中...';
-    rankList.innerHTML = '';
-    if(!db){ rankStatus.textContent = 'ランキングに接続できません'; return; }
-    document.getElementById('weekLabel').textContent = 'ランクポイント順(今シーズン)';
-    const seasonKey = rkSeasonKey(new Date());
-    const prefix = seasonKey+'_';
-    db.collection('rank_progress')
-      .where(firebase.firestore.FieldPath.documentId(), '>=', prefix)
-      .where(firebase.firestore.FieldPath.documentId(), '<', prefix+'\uf8ff')
-      .limit(200)
-      .get()
-      .then(snap=>{
-        if(snap.empty){
-          rankStatus.textContent = 'まだ記録がありません';
-          return;
-        }
-        rankStatus.textContent = '';
-        const rows = [];
-        snap.forEach(doc=>rows.push(doc.data()));
-        rows.sort((a,b)=> (Number(b.rp)||0) - (Number(a.rp)||0));
-        rows.slice(0,30).forEach((d,idx)=>{
-          const info = rkRankInfo(Number(d.rp)||0);
+        top.forEach((d,idx)=>{
           const li = document.createElement('li');
-          li.innerHTML = '<span class="rk">'+(idx+1)+'</span><span class="nm">'+escapeHtml(d.name||'???')+' <span style="color:#888;font-size:10px;">['+escapeHtml(info.name)+']</span></span><span class="tm">'+(Number(d.rp)||0)+' RP</span>';
+          li.innerHTML = '<span class="rk">'+(idx+1)+'</span><span class="nm">'+escapeHtml(d.name||'???')+'</span><span class="tm">'+Number(d.time).toFixed(1)+'秒</span>';
           rankList.appendChild(li);
         });
       })
@@ -824,17 +626,6 @@
         rankStatus.textContent = '読み込みに失敗しました: ' + (e && (e.code || e.message) || '不明なエラー');
       });
   }
-
-  let rkLeaderboardTab = 'time';
-  function rkSetLeaderboardTab(tab){
-    rkLeaderboardTab = tab;
-    rankTabTime.className = tab==='time' ? 'btn small' : 'btn secondary small';
-    rankTabRank.className = tab==='rank' ? 'btn small' : 'btn secondary small';
-    if(tab==='time') loadRanking();
-    else loadRankPointsBoard();
-  }
-  rankTabTime.addEventListener('click', ()=>rkSetLeaderboardTab('time'));
-  rankTabRank.addEventListener('click', ()=>rkSetLeaderboardTab('rank'));
 
   function escapeHtml(s){
     return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -910,7 +701,7 @@
 
   function openRanking(){
     rankScreen.style.display = 'flex';
-    rkSetLeaderboardTab(rkLeaderboardTab);
+    loadRanking();
   }
   function closeRanking(){
     rankScreen.style.display = 'none';
@@ -931,7 +722,6 @@
 
   let laneIdx = 1;
   let running=false, gameOver=false;
-  let mode = 'solo'; // 'solo' | 'vs'
   let rng = Math.random;
   let score=0, best=0;
   try{ best = parseFloat(localStorage.getItem('hiraikunBestTime')||'0')||0; }catch(e){best=0;}
@@ -941,27 +731,14 @@
   let spawnTimer=0, spawnInterval=1500, fallDuration=1750, elapsed=0;
   let lastTime=0;
 
-  let lastSentLane = 1;
   function setPlayerLane(idx){
     laneIdx = Math.max(0, Math.min(LANES.length-1, idx));
     player.style.top = ROWS[laneIdx]+'%';
-    if(mode==='vs' && roomRef && laneIdx!==lastSentLane){
-      lastSentLane = laneIdx;
-      const field = myRole==='p1' ? 'p1Lane' : 'p2Lane';
-      roomRef.update({[field]: laneIdx}).catch(()=>{});
-    }
   }
   setPlayerLane(1);
 
   function moveUp(){ if(!running||gameOver) return; setPlayerLane(laneIdx-1); }
   function moveDown(){ if(!running||gameOver) return; setPlayerLane(laneIdx+1); }
-
-  window.addEventListener('pagehide', ()=>{
-    if(mode==='vs' && running && !myVsDone && roomRef){
-      const field = myRole==='p1' ? {p1Time: elapsed, p1Done: true} : {p2Time: elapsed, p2Done: true};
-      roomRef.update(field).catch(()=>{});
-    }
-  });
 
   window.addEventListener('keydown', (e)=>{
     if(e.code==='ArrowUp' || e.code==='KeyW'){ e.preventDefault(); moveUp(); }
@@ -984,23 +761,12 @@
 
   function spawnGiant(){
     const lane = Math.floor(rng()*LANES.length);
-    if(mode==='vs' && vsVsBot && lane===botLaneIdx){
-      if(Math.random() < vsBotDifficulty().dodgeChance){
-        let nl = Math.floor(Math.random()*LANES.length);
-        if(nl===lane) nl = (nl+1)%LANES.length;
-        botLaneIdx = nl;
-        playerOpp.style.top = ROWS[botLaneIdx]+'%';
-      }
-    }
     const el = document.createElement('div');
     el.className='giant-obj';
     el.style.top = ROWS[lane]+'%';
     el.style.left = SPAWN_X+'%';
 
-    let special = null;
-    if(mode==='solo'){
-      special = rollSpecialGiant();
-    }
+    const special = rollSpecialGiant();
     el.innerHTML = '<img src="' + (special ? special.img : IMG_SPRITE) + '">';
     if(special){
       el.classList.add('giant-special');
@@ -1025,20 +791,8 @@
       const p = (now - o.t0) / o.dur; // p==1 -> giant reaches the player's column
       if(p >= 1 && !o.resolved){
         o.resolved = true;
-        const humanHit = (o.lane === laneIdx);
-        const botHit = (vsVsBot && mode==='vs' && o.lane===botLaneIdx && !botDone);
-        // when only the bot is hit, running stops right after this and elapsed
-        // freezes at the same instant botTime is read - back it off slightly so
-        // the still-alive human doesn't tie with the opponent that just fell.
-        // (if the same giant catches both at once, that's a genuine tie - keep
-        // botTime exactly equal to elapsed for that case.)
-        if(botHit){ botDone = true; botTime = humanHit ? elapsed : Math.max(0, elapsed - 0.5); }
-        if(humanHit){
+        if(o.lane === laneIdx){
           triggerCatch();
-          return;
-        }
-        if(botHit){
-          vsBotOpponentCaughtFirst();
           return;
         }
         score++;
@@ -1111,18 +865,14 @@
     },40);
     setTimeout(()=>{ redflash.style.transition='opacity 0.4s linear'; redflash.style.opacity='0'; },160);
 
-    if(mode==='vs'){
-      handleVsFinish();
-    } else {
-      submitScore(elapsed);
-      setTimeout(()=>{
-        finalDist.textContent = formatTime(elapsed);
-        if(elapsed>best){ best=elapsed; try{localStorage.setItem('hiraikunBestTime',String(best));}catch(e){} }
-        bestDistEl.textContent = formatTime(best);
-        overTitle.textContent = 'つかまった';
-        overScreen.style.display='flex';
-      }, 650);
-    }
+    submitScore(elapsed);
+    setTimeout(()=>{
+      finalDist.textContent = formatTime(elapsed);
+      if(elapsed>best){ best=elapsed; try{localStorage.setItem('hiraikunBestTime',String(best));}catch(e){} }
+      bestDistEl.textContent = formatTime(best);
+      overTitle.textContent = 'つかまった';
+      overScreen.style.display='flex';
+    }, 650);
     setTimeout(()=>{
       jumpscare.style.transition = 'opacity 0.6s ease-out';
       jumpscare.style.opacity = '0';
@@ -1132,12 +882,6 @@
   function startGame(){
     ensureAudio();
     if(audioCtx.state === 'suspended') audioCtx.resume();
-    mode = 'solo';
-    rng = Math.random;
-    playerOpp.style.display = 'none';
-    vsStatus.style.display = 'none';
-    player.querySelector('.mark').style.background = '#ffd23b';
-    player.querySelector('.mark').style.boxShadow = '0 0 8px #ffd23b';
     startScreen.style.display='none';
     overScreen.style.display='none';
     closeRanking();
@@ -1156,601 +900,10 @@
   startBtn.addEventListener('click', ()=>startGame());
   retryBtn.addEventListener('click', ()=>startGame());
 
-  // ================= VS MODE =================
-  function mulberry32(seed){
-    let a = seed >>> 0;
-    return function(){
-      a |= 0; a = (a + 0x6D2B79F5) | 0;
-      let t = Math.imul(a ^ (a >>> 15), 1 | a);
-      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
-  }
-  function genRoomCode(){
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    let s='';
-    for(let i=0;i<6;i++) s += chars[Math.floor(Math.random()*chars.length)];
-    return s;
-  }
-
-  let myRole = null;      // 'p1' | 'p2'
-  let roomId = null;
-  let roomRef = null;
-  let roomUnsub = null;
-  let oppLaneIdx = 1;
-  let lastRoomData = null;
-  let oppDone = false, oppTime = 0;
-  let oppName = '';
-  let myVsDone = false;
-  let resultShown = false;
-  let countdownFired = false;
-  let oppDoneGraceScheduled = false;
-  let vsEndReason = null;
-  let presenceTimer = null;
-  const VS_BOT_NAMES = ['謎のbot','影の刺客','霧の中の誰か','木陰のbot','足音だけの相手','名もなき追跡者'];
-  const VS_BOT_FALLBACK_MS = 8000;
-  let vsVsBot = false;
-  let botLaneIdx = 1, botDone = false, botTime = 0;
-  let botMoveTimer = null;
-  let vsBotFallbackTimer = null;
-
-  function vsBotDifficulty(){
-    const idx = rkRankIndexForRP(rkMyRP);
-    const t = idx/(RK_TIERS.length-1);
-    return {
-      moveInterval: Math.round(480 - t*330),  // 480ms even at bronze -> ~150ms overlord
-      dodgeChance: 0.86 + t*0.13              // 0.86 at bronze -> 0.99 overlord
-    };
-  }
-  function startVsBotAI(){
-    stopVsBotAI();
-    const diff = vsBotDifficulty();
-    botMoveTimer = setInterval(()=>{
-      if(!running || mode!=='vs' || !vsVsBot) return;
-      botLaneIdx = Math.floor(Math.random()*LANES.length);
-      playerOpp.style.top = ROWS[botLaneIdx]+'%';
-    }, diff.moveInterval);
-  }
-  function stopVsBotAI(){
-    if(botMoveTimer){ clearInterval(botMoveTimer); botMoveTimer=null; }
-  }
-
-
-  function startPresenceHeartbeat(){
-    stopPresenceHeartbeat();
-    const sendBeat = ()=>{
-      if(!roomRef || myVsDone || mode!=='vs' || !running){ stopPresenceHeartbeat(); return; }
-      const field = myRole==='p1' ? 'p1Seen' : 'p2Seen';
-      roomRef.update({[field]: firebase.firestore.FieldValue.serverTimestamp()}).catch(()=>{});
-    };
-    sendBeat(); // send immediately so the opponent has a baseline right away
-    presenceTimer = setInterval(sendBeat, 4000);
-  }
-  function stopPresenceHeartbeat(){
-    if(presenceTimer){ clearInterval(presenceTimer); presenceTimer=null; }
-  }
-
-  function resetVsState(){
-    myRole=null; roomId=null; oppLaneIdx=1; oppDone=false; oppTime=0;
-    myVsDone=false; resultShown=false; countdownFired=false; oppDoneGraceScheduled=false;
-    vsEndReason=null; oppName='';
-    vsVsBot=false; botLaneIdx=1; botDone=false; botTime=0;
-    stopVsBotAI();
-    if(vsBotFallbackTimer){ clearTimeout(vsBotFallbackTimer); vsBotFallbackTimer=null; }
-    if(roomUnsub){ roomUnsub(); roomUnsub=null; }
-    if(roomPollTimer){ clearInterval(roomPollTimer); roomPollTimer=null; }
-    if(randomRetryTimer){ clearInterval(randomRetryTimer); randomRetryTimer=null; }
-    stopHostHeartbeat();
-    stopPresenceHeartbeat();
-    roomRef = null;
-  }
-
   function showScreen(el){
-    [startScreen, overScreen, rankScreen, vsMenuScreen, vsWaitScreen, vsResultScreen,
-     rkMenuScreen, rkWaitScreen, rkGameScreen, rkResultScreen, collectionScreen].forEach(s=>{ if(s) s.style.display='none'; });
-    if(el) el.style.display = (el===rkGameScreen) ? 'block' : 'flex';
+    [startScreen, overScreen, rankScreen, collectionScreen].forEach(s=>{ if(s) s.style.display='none'; });
+    if(el) el.style.display = 'flex';
   }
-
-  vsBtn.addEventListener('click', ()=>{
-    vsMenuStatus.textContent='';
-    roomIdInput.value='';
-    showScreen(vsMenuScreen);
-  });
-  vsMenuBackBtn.addEventListener('click', ()=>{ showScreen(startScreen); });
-
-  createRoomBtn.addEventListener('click', ()=>{
-    if(!db){ vsMenuStatus.textContent='通信に接続できません'; return; }
-    resetVsState();
-    myRole = 'p1';
-    roomId = genRoomCode();
-    roomRef = db.collection('rooms').doc(roomId);
-    const seed = Math.floor(Math.random()*1e9);
-    roomRef.set({
-      host: userId, hostName: ensureUsername(),
-      guest: null, guestName: null,
-      seed: seed, status:'waiting', isPublic:false,
-      p1Lane:1, p2Lane:1,
-      p1Done:false, p2Done:false, p1Time:0, p2Time:0, p1Seen:null, p2Seen:null,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(()=>{
-      vsWaitSub.textContent = 'このルームIDを相手に伝えてください';
-      roomCodeDisplay.textContent = roomId;
-      showScreen(vsWaitScreen);
-      watchRoom();
-    }).catch(e=>{ console.error(e); vsMenuStatus.textContent='ルーム作成に失敗しました'; });
-  });
-
-  // ---------- random matchmaking ----------
-  let randomRetryTimer = null;
-  let heartbeatTimer = null;
-  const PRESENCE_TIMEOUT_MS = 15000;
-
-  function extractFreshCandidateIds(snap, excludeId){
-    const now = Date.now();
-    const ids = [];
-    snap.forEach(doc=>{
-      if(doc.id === excludeId) return;
-      const data = doc.data();
-      let refMs = 0;
-      if(data.lastSeen && typeof data.lastSeen.toMillis === 'function') refMs = data.lastSeen.toMillis();
-      else if(data.createdAt && typeof data.createdAt.toMillis === 'function') refMs = data.createdAt.toMillis();
-      // no timestamp resolved yet (very just-created) counts as fresh;
-      // otherwise the host must have checked in within PRESENCE_TIMEOUT_MS
-      const isFresh = refMs === 0 || (now - refMs) < PRESENCE_TIMEOUT_MS;
-      if(isFresh) ids.push(doc.id);
-    });
-    return ids;
-  }
-
-  function startHostHeartbeat(){
-    stopHostHeartbeat();
-    heartbeatTimer = setInterval(()=>{
-      if(!roomRef || countdownFired || myRole!=='p1'){ stopHostHeartbeat(); return; }
-      roomRef.update({lastSeen: firebase.firestore.FieldValue.serverTimestamp()}).catch(()=>{});
-    }, 5000);
-  }
-  function stopHostHeartbeat(){
-    if(heartbeatTimer){ clearInterval(heartbeatTimer); heartbeatTimer=null; }
-  }
-
-  randomMatchBtn.addEventListener('click', ()=>{
-    if(!db){ vsMenuStatus.textContent='通信に接続できません'; return; }
-    resetVsState();
-    vsMenuStatus.textContent = 'ランダムな相手を探しています...';
-    vsBotFallbackTimer = setTimeout(()=>{
-      vsBotFallbackTimer = null;
-      if(countdownFired) return;
-      if(randomRetryTimer){ clearInterval(randomRetryTimer); randomRetryTimer=null; }
-      stopHostHeartbeat();
-      if(roomUnsub){ roomUnsub(); roomUnsub=null; }
-      if(roomRef && myRole==='p1'){ roomRef.delete().catch(()=>{}); }
-      else if(roomRef && myRole==='p2'){ roomRef.update({guest:null,guestName:null,status:'waiting'}).catch(()=>{}); }
-      roomRef = null; roomId = null;
-      startVsBotMatch();
-    }, VS_BOT_FALLBACK_MS);
-    rkLoadMyRP(()=>{ findOrCreateRandomMatch(); });
-  });
-
-  function startVsBotMatch(){
-    vsVsBot = true;
-    myRole = 'p1';
-    oppName = VS_BOT_NAMES[Math.floor(Math.random()*VS_BOT_NAMES.length)];
-    botDone = false; botTime = 0;
-    const seed = Math.floor(Math.random()*1e9);
-    showScreen(null);
-    vsWaitScreen.style.display='none';
-    startVsCountdown(seed);
-  }
-
-  function findOrCreateRandomMatch(excludeId){
-    db.collection('rooms')
-      .where('isPublic','==',true)
-      .where('guest','==',null)
-      .limit(8)
-      .get()
-      .then(snap=>{
-        const candidates = extractFreshCandidateIds(snap, excludeId);
-        if(candidates.length > 0){
-          tryClaimRoom(candidates, 0);
-        } else {
-          createRandomRoom();
-        }
-      })
-      .catch(e=>{ console.error(e); vsMenuStatus.textContent='マッチングに失敗しました'; });
-  }
-
-  function tryClaimRoom(candidates, idx){
-    if(idx >= candidates.length){ createRandomRoom(); return; }
-    const ref = db.collection('rooms').doc(candidates[idx]);
-    db.runTransaction(t=>{
-      return t.get(ref).then(doc=>{
-        if(!doc.exists || doc.data().guest){ throw new Error('taken'); }
-        t.update(ref, { guest:userId, guestName: ensureUsername(), status:'ready' });
-      });
-    }).then(()=>{
-      myRole = 'p2';
-      roomId = candidates[idx];
-      roomRef = ref;
-      vsWaitSub.textContent = 'マッチしました！開始を待っています';
-      roomCodeDisplay.textContent = roomId;
-      showScreen(vsWaitScreen);
-      watchRoom();
-    }).catch(()=>{
-      tryClaimRoom(candidates, idx+1);
-    });
-  }
-
-  function createRandomRoom(){
-    myRole = 'p1';
-    roomId = genRoomCode();
-    roomRef = db.collection('rooms').doc(roomId);
-    const seed = Math.floor(Math.random()*1e9);
-    roomRef.set({
-      host: userId, hostName: ensureUsername(),
-      guest: null, guestName: null,
-      seed: seed, status:'waiting', isPublic:true,
-      p1Lane:1, p2Lane:1,
-      p1Done:false, p2Done:false, p1Time:0, p2Time:0, p1Seen:null, p2Seen:null,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      lastSeen: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(()=>{
-      vsWaitSub.textContent = 'ランダムな対戦相手を探しています(このIDを人に伝えても参加できます)';
-      roomCodeDisplay.textContent = roomId;
-      showScreen(vsWaitScreen);
-      watchRoom();
-      startHostHeartbeat();
-      let tries = 0;
-      randomRetryTimer = setInterval(()=>{
-        tries++;
-        if(tries > 5 || countdownFired){ clearInterval(randomRetryTimer); randomRetryTimer=null; return; }
-        db.collection('rooms').where('isPublic','==',true).where('guest','==',null).limit(8).get().then(snap=>{
-          const others = extractFreshCandidateIds(snap, roomId);
-          if(others.length > 0 && roomRef && !countdownFired){
-            clearInterval(randomRetryTimer); randomRetryTimer=null;
-            stopHostHeartbeat();
-            const oldRef = roomRef;
-            if(roomUnsub){ roomUnsub(); roomUnsub=null; }
-            oldRef.delete().catch(()=>{});
-            tryClaimRoom(others, 0);
-          }
-        }).catch(()=>{});
-      }, 3000);
-    }).catch(e=>{ console.error(e); vsMenuStatus.textContent='マッチング待機に失敗しました'; });
-  }
-  // -----------------------------------------
-
-  joinRoomBtn.addEventListener('click', ()=>{
-    if(!db){ vsMenuStatus.textContent='通信に接続できません'; return; }
-    const code = roomIdInput.value.trim().toUpperCase();
-    if(code.length < 4){ vsMenuStatus.textContent='ルームIDを入力してください'; return; }
-    resetVsState();
-    const ref = db.collection('rooms').doc(code);
-    ref.get().then(doc=>{
-      if(!doc.exists){ vsMenuStatus.textContent='ルームが見つかりません'; return; }
-      const d = doc.data();
-      if(d.guest){ vsMenuStatus.textContent='このルームは満員です'; return; }
-      myRole = 'p2';
-      roomId = code;
-      roomRef = ref;
-      return roomRef.update({ guest:userId, guestName: ensureUsername(), status:'ready' }).then(()=>{
-        vsWaitSub.textContent = 'マッチしました！開始を待っています';
-        roomCodeDisplay.textContent = roomId;
-        showScreen(vsWaitScreen);
-        watchRoom();
-      });
-    }).catch(e=>{ console.error(e); vsMenuStatus.textContent='参加に失敗しました'; });
-  });
-
-  cancelRoomBtn.addEventListener('click', ()=>{
-    if(randomRetryTimer){ clearInterval(randomRetryTimer); randomRetryTimer=null; }
-    if(roomRef){
-      if(myRole==='p1'){ roomRef.delete().catch(()=>{}); }
-      else if(myRole==='p2'){ roomRef.update({guest:null, guestName:null, status:'waiting'}).catch(()=>{}); }
-    }
-    resetVsState();
-    showScreen(vsMenuScreen);
-  });
-
-  function handleRoomUpdate(d){
-    lastRoomData = d;
-    const oppNameFromDoc = myRole==='p1' ? d.guestName : d.hostName;
-    if(oppNameFromDoc && oppNameFromDoc !== oppName){
-      oppName = oppNameFromDoc;
-      updateVsStatusLine();
-    }
-    // opponent lane sync
-    const oppField = myRole==='p1' ? 'p2Lane' : 'p1Lane';
-    if(typeof d[oppField] === 'number'){
-      oppLaneIdx = d[oppField];
-      if(mode==='vs' && running){
-        playerOpp.style.top = ROWS[oppLaneIdx]+'%';
-      }
-    }
-
-    // host: start countdown once guest joins
-    if(myRole==='p1' && d.guest && !countdownFired){
-      countdownFired = true;
-      if(vsBotFallbackTimer){ clearTimeout(vsBotFallbackTimer); vsBotFallbackTimer=null; }
-      startVsCountdown(d.seed);
-    }
-    // guest: start countdown once it sees its own join reflected (or immediately after join call resolves)
-    if(myRole==='p2' && d.guest && !countdownFired){
-      countdownFired = true;
-      if(vsBotFallbackTimer){ clearTimeout(vsBotFallbackTimer); vsBotFallbackTimer=null; }
-      startVsCountdown(d.seed);
-    }
-
-    // opponent finish tracking
-    const oppDoneField = myRole==='p1' ? 'p2Done' : 'p1Done';
-    const oppTimeField = myRole==='p1' ? 'p2Time' : 'p1Time';
-    if(d[oppDoneField]){
-      oppDone = true;
-      oppTime = d[oppTimeField] || 0;
-      if(myVsDone && !resultShown){
-        showVsResult(d);
-      } else if(!myVsDone && mode==='vs' && running && !oppDoneGraceScheduled){
-        // opponent finished first - give me a short grace window in case
-        // I'm also about to be caught at essentially the same instant
-        // (near-simultaneous death should be a tie, not a forced loss/win)
-        oppDoneGraceScheduled = true;
-        updateVsStatusLine();
-        setTimeout(()=>{
-          if(!myVsDone && mode==='vs' && running){
-            endVsMatchAsWinner();
-          }
-        }, 500);
-      } else {
-        updateVsStatusLine();
-      }
-    }
-
-    // opponent presence check - if they've gone silent mid-match, treat as a
-    // disconnect/leave and end the match rather than waiting forever
-    if(mode==='vs' && running && !myVsDone && countdownFired){
-      const oppSeenField = myRole==='p1' ? 'p2Seen' : 'p1Seen';
-      const seenVal = d[oppSeenField];
-      let stale = false;
-      if(seenVal && typeof seenVal.toMillis === 'function'){
-        const ms = seenVal.toMillis();
-        if(ms > 0 && (Date.now() - ms) > 10000) stale = true;
-      } else if(elapsed > 12){
-        // never got a single heartbeat from the opponent - if it's been
-        // this long they almost certainly disconnected before sending one
-        stale = true;
-      }
-      if(stale){
-        endVsMatchAsWinner('left');
-      }
-    }
-  }
-
-  let roomPollTimer = null;
-
-  function watchRoom(){
-    roomUnsub = roomRef.onSnapshot(snap=>{
-      if(!snap.exists){
-        if(!resultShown){
-          vsMenuStatus.textContent='ルームが閉じられました';
-          resetVsState();
-          showScreen(vsMenuScreen);
-        }
-        return;
-      }
-      handleRoomUpdate(snap.data());
-    }, err=>{
-      console.error('room watch error', err);
-      if(vsWaitScreen.style.display==='flex'){
-        vsWaitSub.textContent = '通信エラーが発生しました。再取得を試みています...';
-      }
-    });
-
-    // polling fallback in case the realtime listener stalls
-    // (network blips, backgrounded tabs, etc.) - keep polling through
-    // the whole match so opponent-presence timeouts still get checked
-    if(roomPollTimer){ clearInterval(roomPollTimer); }
-    roomPollTimer = setInterval(()=>{
-      if(!roomRef || resultShown){ clearInterval(roomPollTimer); roomPollTimer=null; return; }
-      roomRef.get({source:'server'}).then(doc=>{
-        if(doc.exists) handleRoomUpdate(doc.data());
-      }).catch(e=>console.error('room poll error', e));
-    }, 2500);
-  }
-
-  function endVsMatchAsWinner(reason){
-    running = false; gameOver = true;
-    myVsDone = true;
-    vsEndReason = reason || null;
-    fadeDrone(0.0001, 0.5);
-    stopPresenceHeartbeat();
-    const field = myRole==='p1' ? {p1Time: elapsed, p1Done:true} : {p2Time: elapsed, p2Done:true};
-    if(roomRef) roomRef.update(field).catch(e=>console.error(e));
-  }
-
-  function updateVsStatusLine(){
-    if(mode!=='vs') return;
-    const label = oppName || '相手';
-    if(oppDone){
-      vsStatus.textContent = label + ': 脱落 (' + formatTime(oppTime) + '秒)';
-    } else {
-      vsStatus.textContent = label + ': 生存中';
-    }
-  }
-
-  function startVsCountdown(seed){
-    showScreen(null);
-    vsWaitScreen.style.display='none';
-    vsCountdownScreen.style.display='flex';
-    let n = 3;
-    countdownNum.textContent = n;
-    const iv = setInterval(()=>{
-      n--;
-      if(n>0){
-        countdownNum.textContent = n;
-      } else if(n===0){
-        countdownNum.textContent = 'START';
-      } else {
-        clearInterval(iv);
-        vsCountdownScreen.style.display='none';
-        beginVsMatch(seed);
-      }
-    }, 700);
-  }
-
-  function beginVsMatch(seed){
-    ensureAudio();
-    if(audioCtx.state === 'suspended') audioCtx.resume();
-    mode = 'vs';
-    rng = mulberry32(seed);
-    myVsDone = false; oppDone = false; oppTime = 0; resultShown = false;
-    oppDoneGraceScheduled = false;
-    botLaneIdx = 1; if(!vsVsBot){ botDone = false; botTime = 0; }
-    jumpscare.style.opacity='0';
-    objs.forEach(o=>o.el.remove());
-    objs = [];
-    score=0; elapsed=0; spawnTimer=0; gameOver=false;
-    spawnInterval=1500; fallDuration=1750;
-    heartInterval=900; nextHeartAt=performance.now()+600;
-    scoreVal.textContent='0.0';
-
-    const myColor = myRole==='p1' ? '#ff3b3b' : '#3b8aff';
-    const oppColor = myRole==='p1' ? '#3b8aff' : '#ff3b3b';
-    player.querySelector('.mark').style.background = myColor;
-    player.querySelector('.mark').style.boxShadow = '0 0 8px '+myColor;
-    playerOpp.querySelector('.mark').style.background = oppColor;
-    playerOpp.querySelector('.mark').style.boxShadow = '0 0 8px '+oppColor;
-    playerOpp.style.display = 'block';
-    playerOpp.style.top = ROWS[1]+'%';
-    vsStatus.style.display = 'block';
-    updateVsStatusLine();
-
-    lastSentLane = -1;
-    setPlayerLane(1);
-    running = true;
-    fadeDrone(0.05, 1.2);
-    if(vsVsBot){
-      startVsBotAI();
-    } else {
-      startPresenceHeartbeat();
-    }
-  }
-
-  function handleVsFinish(){
-    myVsDone = true;
-    stopPresenceHeartbeat();
-    if(vsVsBot){
-      stopVsBotAI();
-      if(!botDone){ botDone = true; botTime = elapsed + 0.5; }
-      setTimeout(()=>{ showVsBotResult(); }, 650);
-      return;
-    }
-    const field = myRole==='p1' ? {p1Time: elapsed, p1Done: true} : {p2Time: elapsed, p2Done: true};
-    if(roomRef) roomRef.update(field).catch(e=>console.error(e));
-    setTimeout(()=>{
-      if(oppDone){
-        roomRef.get().then(doc=>{ if(doc.exists) showVsResult(doc.data()); });
-      } else {
-        vsResultTitle.textContent = '結果待ち';
-        vsResultBody.innerHTML = 'あなたの生存タイム: ' + formatTime(elapsed) + '秒<br>対戦相手の結果を待っています...';
-        vsResultHomeBtn.textContent = 'ホームへ戻る(対戦中止)';
-        vsResultHomeBtn.style.display = 'inline-block';
-        showScreen(vsResultScreen);
-      }
-    }, 650);
-  }
-
-  function vsBotOpponentCaughtFirst(){
-    running = false; gameOver = true; myVsDone = true;
-    stopVsBotAI();
-    fadeDrone(0.0001, 0.5);
-    showVsBotResult();
-  }
-
-  function vsRankLabelForDiff(diff){
-    if(Math.abs(diff) < 0.3) return '引き分け';
-    return diff > 0 ? '勝ち！' : '負け...';
-  }
-
-  function showVsBotResult(){
-    if(resultShown) return;
-    resultShown = true;
-    const myTime = elapsed;
-    const otherTime = botTime;
-    const diff = myTime - otherTime;
-    const label = vsRankLabelForDiff(diff);
-    rkLoadMyRP(()=>{
-      let delta = 0;
-      if(label==='勝ち！') delta = RK_WIN_RP;
-      else if(label==='負け...') delta = RK_LOSE_RP;
-      const newRP = Math.max(0, rkMyRP+delta);
-      rkSaveMyRP(newRP);
-      const info = rkRankInfo(newRP);
-      vsResultTitle.textContent = label;
-      vsResultBody.innerHTML =
-        'あなた: ' + formatTime(myTime) + '秒<br>' +
-        escapeHtml(oppName||'相手') + ': ' + formatTime(Math.max(0,otherTime)) + '秒<br><br>' +
-        (delta>0?'+':'') + delta + ' RP (合計 ' + newRP + ' RP・' + escapeHtml(info.name) + ')';
-      vsResultHomeBtn.textContent = 'ホームへ';
-      vsResultHomeBtn.style.display = 'inline-block';
-      showScreen(vsResultScreen);
-      resetVsState();
-    });
-  }
-
-  function showVsResult(d){
-    if(resultShown) return;
-    resultShown = true;
-    const myTime = myRole==='p1' ? d.p1Time : d.p2Time;
-    const otherTime = myRole==='p1' ? d.p2Time : d.p1Time;
-    const myName = myRole==='p1' ? (d.hostName||'あなた') : (d.guestName||'あなた');
-    const otherName = myRole==='p1' ? (d.guestName||'相手') : (d.hostName||'相手');
-    let resultText = vsRankLabelForDiff(myTime - otherTime);
-    if(vsEndReason==='left' && myTime > otherTime) resultText = '勝ち！(相手が退出)';
-
-    const roomToClean = roomRef;
-    const wasHost = myRole==='p1';
-    rkLoadMyRP(()=>{
-      let delta = 0;
-      if(resultText.indexOf('勝ち')===0) delta = RK_WIN_RP;
-      else if(resultText==='負け...') delta = RK_LOSE_RP;
-      const newRP = Math.max(0, rkMyRP+delta);
-      rkSaveMyRP(newRP);
-      const info = rkRankInfo(newRP);
-      vsResultTitle.textContent = resultText;
-      vsResultBody.innerHTML =
-        escapeHtml(myName) + ': ' + formatTime(myTime) + '秒<br>' +
-        escapeHtml(otherName) + ': ' + formatTime(otherTime) + '秒<br><br>' +
-        (delta>0?'+':'') + delta + ' RP (合計 ' + newRP + ' RP・' + escapeHtml(info.name) + ')';
-      vsResultHomeBtn.textContent = 'ホームへ';
-      vsResultHomeBtn.style.display = 'inline-block';
-      showScreen(vsResultScreen);
-
-      if(wasHost && roomToClean){
-        roomToClean.delete().catch(e=>console.error('room cleanup failed', e));
-      }
-      resetVsState();
-    });
-  }
-
-  vsResultHomeBtn.addEventListener('click', ()=>{
-    if(!resultShown && roomRef && myRole==='p1'){
-      roomRef.delete().catch(()=>{});
-    }
-    running=false; gameOver=true;
-    mode='solo'; rng=Math.random;
-    playerOpp.style.display='none';
-    vsStatus.style.display='none';
-    resetVsState();
-    showScreen(startScreen);
-  });
-
-  let waitDotN=0;
-  setInterval(()=>{
-    if(vsWaitScreen.style.display==='flex'){
-      waitDotN=(waitDotN+1)%4;
-      vsWaitDots.textContent = '.'.repeat(waitDotN+1);
-    }
-  }, 500);
-  // =============================================
 
 
   requestAnimationFrame(loop);
@@ -1786,593 +939,16 @@
   }
   // ---------------------------------------
 
-  // ================= RANKED MATCH (lane duel) =================
-  const rkMenuScreen = document.getElementById('rkMenuScreen');
-  const rkOpenBtn = document.getElementById('rkOpenBtn');
-  const rkRandomBtn = document.getElementById('rkRandomBtn');
-  const rkMenuStatus = document.getElementById('rkMenuStatus');
-  const rkMenuBackBtn = document.getElementById('rkMenuBackBtn');
-  const rkWaitScreen = document.getElementById('rkWaitScreen');
-  const rkWaitDots = document.getElementById('rkWaitDots');
-  const rkCancelBtn = document.getElementById('rkCancelBtn');
-  const rkCountdownScreen = document.getElementById('rkCountdownScreen');
-  const rkCountdownNum = document.getElementById('rkCountdownNum');
-  const rkGameScreen = document.getElementById('rkGameScreen');
-  const rkOppZone = document.getElementById('rkOppZone');
-  const rkMyZone = document.getElementById('rkMyZone');
-  const rkOppDot = document.getElementById('rkOppDot');
-  const rkMyDot = document.getElementById('rkMyDot');
-  const rkProjLayer = document.getElementById('rkProjLayer');
-  const rkLaneGuides = document.getElementById('rkLaneGuides');
-  {
-    const lA = document.createElement('div');
-    lA.className='laneLine'; lA.style.left = ((LANES[0]+LANES[1])/2)+'%';
-    rkLaneGuides.appendChild(lA);
-    const lB = document.createElement('div');
-    lB.className='laneLine'; lB.style.left = ((LANES[1]+LANES[2])/2)+'%';
-    rkLaneGuides.appendChild(lB);
-  }
-  const rkMyHeartsEl = document.getElementById('rkMyHearts');
-  const rkOppHeartsEl = document.getElementById('rkOppHearts');
-  const rkOppNameLabel = document.getElementById('rkOppNameLabel');
-  const rkResultScreen = document.getElementById('rkResultScreen');
-  const rkResultTitle = document.getElementById('rkResultTitle');
-  const rkResultIconImg = document.getElementById('rkResultIconImg');
-  const rkResultRankName = document.getElementById('rkResultRankName');
-  const rkResultRPChange = document.getElementById('rkResultRPChange');
-  const rkResultHomeBtn = document.getElementById('rkResultHomeBtn');
-  const rkRankIconImg = document.getElementById('rkRankIconImg');
-  const rkRankNameEl = document.getElementById('rkRankName');
-  const rkRankRPEl = document.getElementById('rkRankRP');
-
-  const RK_FIRE_COOLDOWN = 550;
-  const RK_TRAVEL_MS = 550;
-  const RK_WIN_RP = 25, RK_LOSE_RP = -15;
-  const RK_BOT_NAMES = ['謎のbot','影の刺客','霧の中の誰か','木陰のbot','足音だけの相手','名もなき追跡者'];
-
-  // ---- rank tier table (matches the reference image: Bronze-Diamond have IV..I, then 4 single top tiers) ----
-  const RK_TIERS = (function(){
-    const base = ['ブロンズ','シルバー','ゴールド','プラチナ','ダイヤモンド'];
-    const subs = ['IV','III','II','I'];
-    const list = [];
-    base.forEach(n=>{ subs.forEach(s=>{ list.push(n+' '+s); }); });
-    ['マスター','チャンピオン','アンリアル','オーバーロード'].forEach(n=>list.push(n));
-    return list;
-  })();
-  function rkThresholdForIndex(i){
-    if(i<=0) return 0;
-    if(i<20) return i*100;
-    return [2000,2400,2800,3200][i-20];
-  }
-  function rkRankIndexForRP(rp){
-    let idx=0;
-    for(let i=0;i<RK_TIERS.length;i++){
-      if(rp >= rkThresholdForIndex(i)) idx=i; else break;
-    }
-    return idx;
-  }
-  function rkRankInfo(rp){
-    const idx = rkRankIndexForRP(rp);
-    return { idx, name: RK_TIERS[idx], rp };
-  }
-  function rkSpriteIndexForTierIdx(idx){
-    return idx<20 ? Math.floor(idx/4) : (idx-15);
-  }
-  function rkSetIconEl(imgEl, tierIdx, sizePx){
-    const spriteIdx = rkSpriteIndexForTierIdx(tierIdx);
-    const scale = sizePx/72;
-    imgEl.style.height = sizePx+'px';
-    imgEl.style.width = (72*9*scale)+'px';
-    imgEl.style.left = (-spriteIdx*72*scale)+'px';
-  }
-
-  function rkSeasonKey(d){
-    return 'M'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
-  }
-
-  let rkMyRP = 0;
-  function rkLoadMyRP(cb){
-    if(!db){ cb&&cb(); return; }
-    const key = rkSeasonKey(new Date())+'_'+userId;
-    db.collection('rank_progress').doc(key).get().then(doc=>{
-      rkMyRP = doc.exists ? (doc.data().rp||0) : 0;
-      cb&&cb();
-    }).catch(()=>{ cb&&cb(); });
-  }
-  function rkSaveMyRP(newRP){
-    rkMyRP = Math.max(0,newRP);
-    if(!db) return;
-    const key = rkSeasonKey(new Date())+'_'+userId;
-    db.collection('rank_progress').doc(key).set({
-      name: ensureUsername(), rp: rkMyRP, updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    }).catch(()=>{});
-  }
-  function rkUpdateMenuBadge(){
-    const info = rkRankInfo(rkMyRP);
-    rkRankNameEl.textContent = info.name;
-    rkRankRPEl.textContent = 'RP '+info.rp;
-    rkSetIconEl(rkRankIconImg, info.idx, 44);
-  }
-
-  // ---- state ----
-  let rkRoomRef=null, rkRoomUnsub=null, rkRoomId=null, rkMyRole=null, rkOppUid=null, rkOppName='';
-  let rkCountdownFired=false, rkRunning=false, rkResultShown=false;
-  let rkMyLane=1, rkOppLane=1;
-  let rkMyHits=0, rkOppHits=0;
-  let rkProjectiles=[];
-  let rkProcessedLaunchIds=new Set();
-  let rkLastFireAt=0;
-  let rkPresenceTimer=null, rkHeartbeatTimer=null, rkRetryTimer=null;
-  let rkAnimHandle=null;
-  let rkWaitDotN=0;
-  let rkVsBot=false, rkBotFallbackTimer=null, rkBotActionTimer=null;
-  const RK_BOT_FALLBACK_MS = 8000;
-
-  function rkLeave(){
-    rkRunning=false;
-    if(rkAnimHandle){ cancelAnimationFrame(rkAnimHandle); rkAnimHandle=null; }
-    if(rkRoomUnsub){ rkRoomUnsub(); rkRoomUnsub=null; }
-    if(rkPresenceTimer){ clearInterval(rkPresenceTimer); rkPresenceTimer=null; }
-    if(rkHeartbeatTimer){ clearInterval(rkHeartbeatTimer); rkHeartbeatTimer=null; }
-    if(rkRetryTimer){ clearInterval(rkRetryTimer); rkRetryTimer=null; }
-    if(rkBotFallbackTimer){ clearTimeout(rkBotFallbackTimer); rkBotFallbackTimer=null; }
-    if(rkBotActionTimer){ clearInterval(rkBotActionTimer); rkBotActionTimer=null; }
-    rkVsBot=false;
-    rkRoomRef=null; rkRoomId=null; rkMyRole=null; rkOppUid=null; rkOppName=''; rkUpdateOppLabel();
-    rkCountdownFired=false; rkResultShown=false;
-    rkMyHits=0; rkOppHits=0; rkMyLane=1; rkOppLane=1;
-    rkProjectiles.forEach(p=>{ const el=document.getElementById('proj_'+p.id); if(el) el.remove(); });
-    rkProjectiles=[]; rkProcessedLaunchIds=new Set();
-  }
-
-  rkOpenBtn.addEventListener('click', ()=>{
-    rkMenuStatus.textContent='';
-    showScreen(rkMenuScreen);
-    rkLoadMyRP(rkUpdateMenuBadge);
-  });
-  rkMenuBackBtn.addEventListener('click', ()=>{ showScreen(vsMenuScreen); });
-
-  function rkFreshCandidateIds(snap, excludeId){
-    const now=Date.now();
-    const ids=[];
-    snap.forEach(doc=>{
-      if(doc.id===excludeId) return;
-      const d = doc.data();
-      const lastSeenMs = d.lastSeen && typeof d.lastSeen.toMillis==='function' ? d.lastSeen.toMillis() : 0;
-      const fresh = lastSeenMs===0 || (now-lastSeenMs)<15000;
-      if(fresh) ids.push(doc.id);
-    });
-    return ids;
-  }
-
-  rkRandomBtn.addEventListener('click', ()=>{
-    if(!db){ rkMenuStatus.textContent='通信に接続できません'; return; }
-    rkLeave();
-    rkMenuStatus.textContent = '対戦相手を探しています...';
-    rkBotFallbackTimer = setTimeout(()=>{
-      rkBotFallbackTimer = null;
-      if(rkCountdownFired) return;
-      if(rkRetryTimer){ clearInterval(rkRetryTimer); rkRetryTimer=null; }
-      rkStopHeartbeat();
-      if(rkRoomUnsub){ rkRoomUnsub(); rkRoomUnsub=null; }
-      if(rkRoomRef && rkMyRole==='p1'){ rkRoomRef.delete().catch(()=>{}); }
-      else if(rkRoomRef && rkMyRole==='p2'){ rkRoomRef.update({p2:null,p2Name:null,status:'waiting'}).catch(()=>{}); }
-      rkRoomRef=null; rkRoomId=null;
-      rkStartBotMatch();
-    }, RK_BOT_FALLBACK_MS);
-    rkLoadMyRP(()=>{
-      db.collection('rank_rooms').where('status','==','waiting').limit(20).get().then(snap=>{
-        const cands = rkFreshCandidateIds(snap);
-        if(cands.length>0) rkTryClaim(cands,0);
-        else rkCreateRoom();
-      }).catch(e=>{ console.error(e); rkMenuStatus.textContent='マッチングに失敗しました'; });
-    });
-  });
-
-  function rkTryClaim(cands, idx){
-    if(idx>=cands.length){ rkCreateRoom(); return; }
-    const ref = db.collection('rank_rooms').doc(cands[idx]);
-    db.runTransaction(t=>t.get(ref).then(doc=>{
-      if(!doc.exists || doc.data().p2) throw new Error('taken');
-      t.update(ref, {p2:userId, p2Name:ensureUsername(), status:'ready'});
-    })).then(()=>{
-      rkMyRole='p2'; rkRoomId=cands[idx]; rkRoomRef=ref;
-      showScreen(rkWaitScreen);
-      rkWatchRoom();
-    }).catch(()=>rkTryClaim(cands, idx+1));
-  }
-
-  function rkCreateRoom(){
-    rkMyRole='p1';
-    rkRoomId = genRoomCode();
-    rkRoomRef = db.collection('rank_rooms').doc(rkRoomId);
-    const seed = Math.floor(Math.random()*1e9);
-    rkRoomRef.set({
-      p1:userId, p1Name:ensureUsername(), p2:null, p2Name:null,
-      status:'waiting', seed:seed, p1RP: rkMyRP,
-      p1Lane:1, p2Lane:1, p1Hits:0, p2Hits:0, launches:[],
-      winnerUid:null,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      lastSeen: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(()=>{
-      showScreen(rkWaitScreen);
-      rkWatchRoom();
-      rkStartHostHeartbeat();
-      let tries=0;
-      rkRetryTimer = setInterval(()=>{
-        tries++;
-        if(tries>5 || rkCountdownFired){ clearInterval(rkRetryTimer); rkRetryTimer=null; return; }
-        db.collection('rank_rooms').where('status','==','waiting').limit(20).get().then(snap=>{
-          const others = rkFreshCandidateIds(snap, rkRoomId);
-          if(others.length>0 && !rkCountdownFired){
-            clearInterval(rkRetryTimer); rkRetryTimer=null;
-            rkStopHeartbeat();
-            const old = rkRoomRef;
-            if(rkRoomUnsub){ rkRoomUnsub(); rkRoomUnsub=null; }
-            old.delete().catch(()=>{});
-            rkTryClaim(others, 0);
-          }
-        }).catch(()=>{});
-      }, 3000);
-    }).catch(e=>{ console.error(e); rkMenuStatus.textContent='マッチングに失敗しました'; });
-  }
-
-  function rkStartHostHeartbeat(){
-    rkStopHeartbeat();
-    rkHeartbeatTimer = setInterval(()=>{
-      if(!rkRoomRef || rkCountdownFired || rkMyRole!=='p1'){ rkStopHeartbeat(); return; }
-      rkRoomRef.update({lastSeen: firebase.firestore.FieldValue.serverTimestamp()}).catch(()=>{});
-    }, 5000);
-  }
-  function rkStopHeartbeat(){ if(rkHeartbeatTimer){ clearInterval(rkHeartbeatTimer); rkHeartbeatTimer=null; } }
-
-  rkCancelBtn.addEventListener('click', ()=>{
-    if(rkRoomRef){
-      if(rkMyRole==='p1'){ rkRoomRef.delete().catch(()=>{}); }
-      else { rkRoomRef.update({p2:null, p2Name:null, status:'waiting'}).catch(()=>{}); }
-    }
-    rkLeave();
-    showScreen(rkMenuScreen);
-  });
-
-  function rkWatchRoom(){
-    rkRoomUnsub = rkRoomRef.onSnapshot(snap=>{
-      if(!snap.exists){
-        if(!rkResultShown){
-          rkMenuStatus.textContent='ルームが閉じられました';
-          rkLeave();
-          showScreen(rkMenuScreen);
-        }
-        return;
-      }
-      rkHandleUpdate(snap.data());
-    }, err=>console.error('rank room error', err));
-  }
-
-  function rkHandleUpdate(d){
-    if(!rkOppUid && d.p1 && d.p2){ rkOppUid = rkMyRole==='p1' ? d.p2 : d.p1; }
-    const oppNameFromDoc = rkMyRole==='p1' ? d.p2Name : d.p1Name;
-    if(oppNameFromDoc && oppNameFromDoc !== rkOppName){
-      rkOppName = oppNameFromDoc;
-      rkUpdateOppLabel();
-    }
-
-    const oppLaneField = rkMyRole==='p1' ? 'p2Lane' : 'p1Lane';
-    if(typeof d[oppLaneField]==='number'){
-      rkOppLane = d[oppLaneField];
-      if(rkRunning) rkRenderOppLane();
-    }
-    const oppHitsField = rkMyRole==='p1' ? 'p2Hits' : 'p1Hits';
-    if(typeof d[oppHitsField]==='number' && d[oppHitsField]!==rkOppHits){
-      rkOppHits = d[oppHitsField];
-      if(rkRunning) rkUpdateHearts();
-    }
-
-    if(d.p2 && !rkCountdownFired){
-      rkCountdownFired = true;
-      rkStopHeartbeat();
-      if(rkRetryTimer){ clearInterval(rkRetryTimer); rkRetryTimer=null; }
-      if(rkBotFallbackTimer){ clearTimeout(rkBotFallbackTimer); rkBotFallbackTimer=null; }
-      rkStartCountdown(d.seed);
-    }
-
-    if(rkRunning) rkProcessLaunches(d.launches||[]);
-
-    if(rkRunning && !rkResultShown){
-      const oppSeenField = rkMyRole==='p1' ? 'p2Seen' : 'p1Seen';
-      const seenTs = d[oppSeenField];
-      if(seenTs && typeof seenTs.toMillis==='function'){
-        const ageMs = Date.now()-seenTs.toMillis();
-        if(ageMs > 10000){
-          rkResultShown = true;
-          if(rkRoomRef) rkRoomRef.update({status:'ended', winnerUid:userId}).catch(()=>{});
-          rkShowResult(true);
-          return;
-        }
-      }
-    }
-
-    if(d.status==='ended' && !rkResultShown){
-      rkResultShown = true;
-      rkShowResult(d.winnerUid===userId);
-    }
-  }
-
-  function rkStartCountdown(seed){
-    showScreen(null);
-    rkWaitScreen.style.display='none';
-    rkCountdownScreen.style.display='flex';
-    let n=3;
-    rkCountdownNum.textContent=n;
-    const iv = setInterval(()=>{
-      n--;
-      if(n>0){ rkCountdownNum.textContent=n; }
-      else if(n===0){ rkCountdownNum.textContent='START'; }
-      else{ clearInterval(iv); rkCountdownScreen.style.display='none'; rkBeginMatch(); }
-    }, 700);
-  }
-
-  function rkStartBotMatch(){
-    rkVsBot = true;
-    rkMyRole = 'p1';
-    rkOppUid = 'bot';
-    rkOppName = RK_BOT_NAMES[Math.floor(Math.random()*RK_BOT_NAMES.length)];
-    rkUpdateOppLabel();
-    showScreen(null);
-    rkWaitScreen.style.display='none';
-    rkCountdownScreen.style.display='flex';
-    let n=3;
-    rkCountdownNum.textContent=n;
-    const iv = setInterval(()=>{
-      n--;
-      if(n>0){ rkCountdownNum.textContent=n; }
-      else if(n===0){ rkCountdownNum.textContent='START'; }
-      else{ clearInterval(iv); rkCountdownScreen.style.display='none'; rkBeginMatch(); }
-    }, 700);
-  }
-
-  function rkBotDifficulty(){
-    // scales with the player's current rank: higher rank = faster, more accurate bot.
-    // overall baseline was raised across every rank so bots are a real threat from bronze up.
-    const idx = rkRankIndexForRP(rkMyRP); // 0 (bronze IV) .. 23 (overlord)
-    const t = idx / (RK_TIERS.length-1); // 0..1
-    return {
-      interval: Math.round(620 - t*370),   // 620ms at bronze -> ~250ms at overlord
-      aimChance: 0.68 + t*0.28,            // 0.68 -> 0.96
-      wanderChance: 0.45 - t*0.25          // 0.45 -> 0.20 (less random, more focused at high rank)
-    };
-  }
-
-  function rkBotAction(){
-    if(!rkRunning || !rkVsBot || rkResultShown) return;
-    const diff = rkBotDifficulty();
-    // fairly strong: often snaps onto the player's current lane right before firing
-    // (a well-aimed shot), otherwise repositions somewhat randomly. Both the aim
-    // accuracy and the fire rate get tougher as the player's rank climbs.
-    if(Math.random() < diff.aimChance){
-      rkOppLane = rkMyLane;
-    } else if(Math.random() < diff.wanderChance){
-      rkOppLane = Math.floor(Math.random()*LANES.length);
-    }
-    rkRenderOppLane();
-    const id = 'bot_'+Date.now()+'_'+Math.floor(Math.random()*1000);
-    rkProjectiles.push({id, ownerUid:'bot', lane: rkOppLane, bornAt: performance.now(), forMe:true});
-    rkSpawnProjEl(id, rkOppLane, true);
-  }
-
-  function rkUpdateOppLabel(){
-    rkOppNameLabel.textContent = rkOppName || '相手';
-  }
-  function rkRenderMyLane(){ rkMyDot.style.left = LANES[rkMyLane]+'%'; }
-  function rkRenderOppLane(){ rkOppDot.style.left = LANES[rkOppLane]+'%'; }
-  function rkPipsHtml(hits, color){
-    const remain = Math.max(0, 2-hits);
-    let s = '';
-    for(let i=0;i<remain;i++) s += '<span style="color:'+color+';">●</span>';
-    for(let i=0;i<hits;i++) s += '<span style="color:rgba(255,255,255,0.22);">●</span>';
-    return s;
-  }
-  function rkUpdateHearts(){
-    rkMyHeartsEl.innerHTML = rkPipsHtml(rkMyHits, '#ff5050');
-    rkOppHeartsEl.innerHTML = rkPipsHtml(rkOppHits, '#5090ff');
-  }
-
-  function rkSetMyLane(idx){
-    rkMyLane = Math.max(0, Math.min(LANES.length-1, idx));
-    rkRenderMyLane();
-    if(rkRoomRef){
-      const field = rkMyRole==='p1' ? 'p1Lane' : 'p2Lane';
-      rkRoomRef.update({[field]: rkMyLane}).catch(()=>{});
-    }
-  }
-  function rkMoveLeft(){ if(rkRunning) rkSetMyLane(rkMyLane-1); }
-  function rkMoveRight(){ if(rkRunning) rkSetMyLane(rkMyLane+1); }
-
-  rkMyZone.addEventListener('pointerdown', (e)=>{
-    e.preventDefault();
-    const rect = rkMyZone.getBoundingClientRect();
-    const relX = e.clientX - rect.left;
-    if(relX < rect.width/2) rkMoveLeft(); else rkMoveRight();
-  });
-
-  function rkFire(){
-    if(!rkRunning) return;
-    const now = performance.now();
-    if(now - rkLastFireAt < RK_FIRE_COOLDOWN) return;
-    rkLastFireAt = now;
-    const id = userId+'_'+Date.now()+'_'+Math.floor(Math.random()*1000);
-    rkProjectiles.push({id, ownerUid:userId, lane:rkMyLane, bornAt:performance.now(), forMe:false});
-    rkProcessedLaunchIds.add(id);
-    rkSpawnProjEl(id, rkMyLane, false);
-    if(rkRoomRef){
-      rkRoomRef.update({launches: firebase.firestore.FieldValue.arrayUnion({id, ownerUid:userId, lane:rkMyLane, t:Date.now()})}).catch(()=>{});
-    }
-  }
-  rkOppZone.addEventListener('pointerdown', (e)=>{ e.preventDefault(); rkFire(); });
-
-  function rkProcessLaunches(launches){
-    launches.forEach(ev=>{
-      if(rkProcessedLaunchIds.has(ev.id)) return;
-      rkProcessedLaunchIds.add(ev.id);
-      if(ev.ownerUid===userId) return;
-      const ageMs = Date.now()-ev.t;
-      // generous window: a slow/late Firestore delivery (network blip, tab
-      // backgrounded briefly, etc.) used to silently drop the shot entirely -
-      // no visual AND no hit resolution. Now it still registers; if it's
-      // already past its travel time it resolves on the very next frame.
-      if(ageMs > 8000 || ageMs < -2000) return;
-      rkProjectiles.push({id:ev.id, ownerUid:ev.ownerUid, lane:ev.lane, bornAt:performance.now()-ageMs, forMe:true});
-      rkSpawnProjEl(ev.id, ev.lane, true);
-    });
-  }
-
-  function rkSpawnProjEl(id, lane, forMe){
-    const el = document.createElement('img');
-    el.id = 'proj_'+id;
-    el.className = 'rkProj';
-    el.src = IMG_SPRITE;
-    el.style.left = LANES[lane]+'%';
-    el.style.top = forMe ? '9%' : '91%';
-    rkProjLayer.appendChild(el);
-  }
-
-  function rkUpdateProjectiles(now){
-    for(let i=rkProjectiles.length-1;i>=0;i--){
-      const p = rkProjectiles[i];
-      const age = now - p.bornAt;
-      const t = Math.min(1, age/RK_TRAVEL_MS);
-      const el = document.getElementById('proj_'+p.id);
-      if(el){
-        const yPct = p.forMe ? (9 + t*82) : (91 - t*82);
-        el.style.top = yPct+'%';
-        el.style.left = LANES[p.lane]+'%';
-      }
-      if(age >= RK_TRAVEL_MS){
-        if(p.forMe && p.lane===rkMyLane && rkRunning && !rkResultShown){
-          rkOnSelfHit();
-        }
-        if(rkVsBot && !p.forMe && p.ownerUid===userId && p.lane===rkOppLane && rkRunning && !rkResultShown){
-          rkOnBotHit();
-        }
-        if(el) el.remove();
-        rkProjectiles.splice(i,1);
-      }
-    }
-  }
-
-  function rkOnBotHit(){
-    rkOppHits++;
-    rkUpdateHearts();
-    if(rkOppHits>=2 && !rkResultShown){
-      rkResultShown = true;
-      rkShowResult(true);
-    }
-  }
-
-  function rkOnSelfHit(){
-    rkMyHits++;
-    rkUpdateHearts();
-    const field = rkMyRole==='p1' ? {p1Hits:rkMyHits} : {p2Hits:rkMyHits};
-    if(rkRoomRef) rkRoomRef.update(field).catch(()=>{});
-    if(rkMyHits>=2 && !rkResultShown){
-      rkResultShown = true;
-      if(rkRoomRef) rkRoomRef.update({status:'ended', winnerUid: rkOppUid||null}).catch(()=>{});
-      rkShowResult(false);
-    }
-  }
-
-  function rkStartPresenceHeartbeat(){
-    if(rkPresenceTimer) clearInterval(rkPresenceTimer);
-    rkPresenceTimer = setInterval(()=>{
-      if(!rkRoomRef || !rkRunning) return;
-      const field = rkMyRole==='p1' ? 'p1Seen' : 'p2Seen';
-      rkRoomRef.update({[field]: firebase.firestore.FieldValue.serverTimestamp()}).catch(()=>{});
-    }, 4000);
-  }
-
-  function rkBeginMatch(){
-    rkRunning = true;
-    rkMyHits = 0; rkOppHits = 0; rkResultShown = false;
-    rkMyLane = 1; rkOppLane = 1;
-    rkProjectiles = []; rkProcessedLaunchIds = new Set();
-    rkProjLayer.innerHTML = '';
-    rkUpdateHearts();
-    showScreen(rkGameScreen);
-    rkRenderMyLane(); rkRenderOppLane();
-    if(rkVsBot){
-      if(rkBotActionTimer) clearInterval(rkBotActionTimer);
-      rkBotActionTimer = setInterval(rkBotAction, rkBotDifficulty().interval);
-    } else {
-      rkStartPresenceHeartbeat();
-    }
-    function frame(now){
-      if(!rkRunning) return;
-      rkUpdateProjectiles(now);
-      rkAnimHandle = requestAnimationFrame(frame);
-    }
-    rkAnimHandle = requestAnimationFrame(frame);
-  }
-
-  function rkShowResult(won){
-    rkRunning = false;
-    if(rkAnimHandle){ cancelAnimationFrame(rkAnimHandle); rkAnimHandle=null; }
-    if(rkPresenceTimer){ clearInterval(rkPresenceTimer); rkPresenceTimer=null; }
-    const delta = won ? RK_WIN_RP : RK_LOSE_RP;
-    const newRP = Math.max(0, rkMyRP+delta);
-    rkSaveMyRP(newRP);
-    const info = rkRankInfo(newRP);
-    rkResultTitle.textContent = won ? '勝ち！' : '負け...';
-    rkSetIconEl(rkResultIconImg, info.idx, 110);
-    rkResultRankName.textContent = info.name;
-    rkResultRPChange.innerHTML = (delta>=0?'+':'')+delta+' RP (合計 '+newRP+' RP)';
-    rkResultRPChange.style.color = won ? '#5fdc7a' : '#ff6a4d';
-    showScreen(rkResultScreen);
-    if(rkMyRole==='p1' && rkRoomRef){
-      const ref = rkRoomRef;
-      setTimeout(()=>{ ref.delete().catch(()=>{}); }, 4000);
-    }
-    rkLeave();
-  }
-
-  rkResultHomeBtn.addEventListener('click', ()=>{
-    showScreen(startScreen);
-  });
-
-  setInterval(()=>{
-    if(rkWaitScreen.style.display==='flex'){
-      rkWaitDotN = (rkWaitDotN+1)%4;
-      rkWaitDots.textContent = '.'.repeat(rkWaitDotN+1);
-    }
-  }, 500);
-
-  window.addEventListener('pagehide', ()=>{
-    if(rkRunning && !rkResultShown && rkRoomRef && rkOppUid){
-      rkRoomRef.update({status:'ended', winnerUid: rkOppUid}).catch(()=>{});
-    }
-  });
-  // ===============================================================
-
   // ================= gamepad support (Switch / PS / Xbox etc.) =================
-  // Lane movement: D-pad left/right or the left stick. Fire (rank match only): ZR
-  // (the "standard" browser gamepad mapping puts the right trigger - ZR on a
-  // Switch controller, R2 on PlayStation, RT on Xbox - at button index 7).
-  let gpPrevLeft = false, gpPrevRight = false, gpPrevFire = false, gpPrevUp = false, gpPrevDown = false;
+  // Lane movement: D-pad up/down or the left stick.
+  let gpPrevUp = false, gpPrevDown = false;
   const GP_AXIS_DEADZONE = 0.5;
 
-  function gamepadMoveLeft(){
-    if(rkRunning){ rkMoveLeft(); }
-  }
-  function gamepadMoveRight(){
-    if(rkRunning){ rkMoveRight(); }
-  }
   function gamepadMoveUp(){
-    if(!rkRunning && running && !gameOver){ moveUp(); }
+    if(running && !gameOver){ moveUp(); }
   }
   function gamepadMoveDown(){
-    if(!rkRunning && running && !gameOver){ moveDown(); }
-  }
-  function gamepadFire(){
-    if(rkRunning){ rkFire(); }
+    if(running && !gameOver){ moveDown(); }
   }
 
   function pollGamepad(){
@@ -2380,25 +956,15 @@
     let pad = null;
     for(let i=0;i<pads.length;i++){ if(pads[i]){ pad = pads[i]; break; } }
     if(pad){
-      const dpadLeft = !!(pad.buttons[14] && pad.buttons[14].pressed);
-      const dpadRight = !!(pad.buttons[15] && pad.buttons[15].pressed);
       const dpadUp = !!(pad.buttons[12] && pad.buttons[12].pressed);
       const dpadDown = !!(pad.buttons[13] && pad.buttons[13].pressed);
-      const axisX = pad.axes[0] || 0;
       const axisY = pad.axes[1] || 0;
-      const curLeft = dpadLeft || axisX < -GP_AXIS_DEADZONE;
-      const curRight = dpadRight || axisX > GP_AXIS_DEADZONE;
       const curUp = dpadUp || axisY < -GP_AXIS_DEADZONE;
       const curDown = dpadDown || axisY > GP_AXIS_DEADZONE;
-      const curFire = !!(pad.buttons[7] && pad.buttons[7].pressed);
 
-      if(curLeft && !gpPrevLeft) gamepadMoveLeft();
-      if(curRight && !gpPrevRight) gamepadMoveRight();
       if(curUp && !gpPrevUp) gamepadMoveUp();
       if(curDown && !gpPrevDown) gamepadMoveDown();
-      if(curFire && !gpPrevFire) gamepadFire();
 
-      gpPrevLeft = curLeft; gpPrevRight = curRight; gpPrevFire = curFire;
       gpPrevUp = curUp; gpPrevDown = curDown;
     }
     requestAnimationFrame(pollGamepad);
