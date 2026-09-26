@@ -19,28 +19,18 @@
   /* iOS Safari auto-zooms into any input/textarea/select with font-size below 16px on focus,
      regardless of the viewport meta tag - keep all of them at >=16px to prevent that. */
   input, textarea, select { font-size:16px; touch-action:manipulation; }
-  html,body { width:100%; height:100%; background:#000; overflow:hidden; font-family:'Courier New', monospace; }
+  html,body { width:100%; height:100%; background:#1a1a1a; overflow:hidden; font-family:'Courier New', monospace; }
 
   #stage {
     position:relative; width:100%; height:100%;
     max-width:520px; max-height:920px; margin:0 auto;
     background:#111; overflow:hidden;
-    filter:contrast(1.08) saturate(1.05);
+    filter:contrast(1.0) saturate(1.05) brightness(1.3);
   }
   #bg {
     position:absolute; inset:0;
     background-size:cover; background-position:27% 50%;
-    filter:brightness(1.18) contrast(1.05);
-  }
-  #vignette {
-    position:absolute; inset:0;
-    background:radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 100%);
-    pointer-events:none; z-index:25;
-  }
-  #scanlines {
-    position:absolute; inset:0;
-    background:repeating-linear-gradient(to bottom, rgba(0,0,0,0.18) 0px, rgba(0,0,0,0.18) 1px, rgba(0,0,0,0) 2px, rgba(0,0,0,0) 3px);
-    mix-blend-mode:multiply; pointer-events:none; opacity:0.55; z-index:26;
+    filter:brightness(1.5) contrast(1.0);
   }
   #noise {
     position:absolute; inset:0; pointer-events:none; opacity:0.06; z-index:27;
@@ -48,17 +38,6 @@
     animation:noiseshift 0.2s steps(2) infinite;
   }
   @keyframes noiseshift { 0%{transform:translate(0,0)} 50%{transform:translate(-2%,1%)} 100%{transform:translate(1%,-2%)} }
-
-  #hud {
-    position:absolute; top:14px; left:14px; right:14px;
-    display:flex; justify-content:space-between;
-    color:#e8e8e8; font-size:13px; letter-spacing:1px;
-    text-shadow:0 0 4px rgba(0,0,0,0.9);
-    pointer-events:none; z-index:40;
-  }
-  #rec { display:flex; align-items:center; gap:6px; }
-  #recdot { width:10px; height:10px; border-radius:50%; background:#e0201c; animation:blink 1s steps(1) infinite; box-shadow:0 0 6px #e0201c; }
-  @keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0.15} }
 
   #score {
     position:absolute; bottom:16px; left:0; right:0; text-align:center;
@@ -82,14 +61,6 @@
     from { transform:translateY(-3px) rotate(-2.5deg); }
     to   { transform:translateY(3px)  rotate(2.5deg); }
   }
-  .giant-obj.giant-special img { filter:drop-shadow(0 0 14px rgba(255,215,80,0.9)); }
-  .giant-special-label {
-    position:absolute; top:-22px; left:50%; transform:translateX(-50%);
-    white-space:nowrap; font-size:11px; letter-spacing:0.5px; color:#ffd23b;
-    text-shadow:0 0 6px rgba(0,0,0,0.9), 0 0 10px rgba(255,210,59,0.6);
-    pointer-events:none;
-  }
-
   #player {
     position:absolute; left:14%; top:50%; width:46px; height:22px;
     transform:translate(-50%,-50%);
@@ -114,53 +85,14 @@
   #tapzone { position:absolute; inset:0; z-index:50; display:flex; flex-direction:column; }
   .tapHalf { flex:1; }
 
-  #startScreen, #overScreen, #rankScreen,
-  #collectionScreen {
-    position:absolute; inset:0; background:radial-gradient(circle at 50% 30%, rgba(30,10,10,0.92), rgba(0,0,0,0.94) 75%); color:#eee;
+  #startScreen, #overScreen, #rankScreen {
+    position:absolute; inset:0; background:radial-gradient(circle at 50% 30%, rgba(70,45,45,0.85), rgba(35,30,30,0.88) 75%); color:#eee;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center; padding:30px; z-index:80; gap:14px;
   }
-  #overScreen, #rankScreen,
-  #collectionScreen { display:none; }
-  #rankScreen, #collectionScreen { z-index:85; overflow-y:auto; padding:40px 22px 26px; justify-content:flex-start; }
-  #rankScreen, #rankScreen *, #collectionScreen, #collectionScreen * { touch-action:pan-y; }
-  #collectionGrid {
-    display:grid; grid-template-columns:1fr 1fr; gap:14px;
-    width:100%; max-width:340px; margin-top:6px;
-  }
-  .collCard {
-    background:linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-    border:1px solid rgba(255,255,255,0.14); border-radius:12px; padding:14px 8px;
-    display:flex; flex-direction:column; align-items:center; gap:6px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.3);
-  }
-  .collCard img {
-    width:64px; height:64px; object-fit:contain; object-position:center top;
-    filter:drop-shadow(0 2px 6px rgba(0,0,0,0.5));
-  }
-  .collCard .collSilhouette {
-    width:64px; height:64px; border-radius:8px;
-    background:linear-gradient(160deg,#1a1a1a,#050505);
-    border:1px solid rgba(255,255,255,0.08);
-    display:flex; align-items:center; justify-content:center;
-    font-size:22px; color:rgba(255,255,255,0.25);
-  }
-  .collCard .collName { font-size:11px; letter-spacing:0.5px; font-weight:600; }
-  .collCard .collOdds { font-size:9px; color:#888; }
-  .collCard.locked .collName { color:#666; }
-
-  #discoveryToast {
-    position:absolute; left:50%; top:18%; transform:translate(-50%,-10px);
-    background:rgba(0,0,0,0.85); border:1px solid rgba(255,215,80,0.6);
-    color:#ffd23b; padding:12px 20px; border-radius:8px;
-    font-size:13px; letter-spacing:0.5px; text-align:center;
-    z-index:98; opacity:0; pointer-events:none;
-    transition:opacity 0.4s ease, transform 0.4s ease;
-    box-shadow:0 0 24px rgba(255,215,80,0.35);
-    max-width:280px;
-  }
-  #discoveryToast.show { opacity:1; transform:translate(-50%,0); }
-
+  #overScreen, #rankScreen { display:none; }
+  #rankScreen { z-index:85; overflow-y:auto; padding:40px 22px 26px; justify-content:flex-start; }
+  #rankScreen, #rankScreen * { touch-action:pan-y; }
   .title {
     font-size:26px; font-weight:800; letter-spacing:3px; color:#fff;
     text-shadow:0 0 2px rgba(255,255,255,0.4), 0 0 18px rgba(255,42,42,0.85), 0 0 36px rgba(255,42,42,0.4);
@@ -239,13 +171,6 @@
   #rankList li .tm { color:#ffd23b; font-weight:600; }
   #rankStatus { font-size:12px; color:#888; min-height:16px; }
 
-  #giantFace {
-    width:96px; height:96px; border-radius:50%;
-    object-fit:cover; object-position:center 30%;
-    border:2px solid rgba(255,42,42,0.7);
-    box-shadow:0 0 22px rgba(255,42,42,0.55);
-    filter:brightness(0.9) contrast(1.1);
-  }
 </style>
 </head>
 <body>
@@ -256,14 +181,8 @@
   <div id="lanes"></div>
   <div id="player"><div class="shadow"></div><div class="mark"></div></div>
 
-  <div id="vignette"></div>
-  <div id="scanlines"></div>
   <div id="noise"></div>
 
-  <div id="hud">
-    <div id="rec"><div id="recdot"></div><span>REC</span></div>
-    <div id="ts">2025.10.18&nbsp;&nbsp;17:42</div>
-  </div>
   <button id="muteBtn">🔊</button>
   <button id="reloadBtn" title="リロード">🔄</button>
   <div id="score">生存タイム: <span id="scoreVal">0.0</span>秒</div>
@@ -277,7 +196,6 @@
   </div>
 
   <div id="startScreen">
-    <img id="giantFace" alt="">
     <div class="title">豆男</div>
     <div class="sub">
       2025年10月18日 17:42、森の中。<br>
@@ -293,21 +211,11 @@
     <div class="btnRow">
       <button class="btn secondary" id="rankBtn">ランキング</button>
     </div>
-    <button class="btn secondary small" id="collectionBtn">コレクション</button>
     <button class="btn secondary small" id="installBtn" style="display:none;">📲 アプリとしてインストール</button>
     <div class="weekLabel" id="iosHint" style="display:none;max-width:300px;">
       iPhoneの場合: 共有ボタン →「ホーム画面に追加」でインストールできます
     </div>
   </div>
-
-  <div id="collectionScreen">
-    <div class="title">コレクション</div>
-    <div class="sub">生き残るモードで、超低確率で特別な巨人が走ってくることがある。</div>
-    <div id="collectionGrid"></div>
-    <button class="btn secondary" id="collectionBackBtn">ホームへ戻る</button>
-  </div>
-
-  <div id="discoveryToast"></div>
 
   <div id="overScreen">
     <div class="title" id="overTitle">つかまった</div>
@@ -342,7 +250,6 @@
   const IMG_FACE = 'data:image/jpeg;base64,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';
   document.getElementById('bg').style.backgroundImage = "url('" + IMG_BG + "')";
   document.getElementById('jumpscareImg').src = IMG_BG;
-  document.getElementById('giantFace').src = IMG_FACE;
 
   // ---- iOS zoom prevention (pinch-gesture + double-tap) ----
   document.addEventListener('gesturestart', e=>e.preventDefault());
@@ -370,14 +277,8 @@
   const redflash = document.getElementById('redflash');
   const finalDist = document.getElementById('finalDist');
   const bestDistEl = document.getElementById('bestDist');
-  const tsEl = document.getElementById('ts');
   const laneGuides = document.getElementById('laneGuides');
   const rankScreen = document.getElementById('rankScreen');
-  const collectionScreen = document.getElementById('collectionScreen');
-  const collectionBtn = document.getElementById('collectionBtn');
-  const collectionBackBtn = document.getElementById('collectionBackBtn');
-  const collectionGrid = document.getElementById('collectionGrid');
-  const discoveryToast = document.getElementById('discoveryToast');
   const rankBtn = document.getElementById('rankBtn');
   const overRankBtn = document.getElementById('overRankBtn');
   const overHomeBtn = document.getElementById('overHomeBtn');
@@ -631,72 +532,6 @@
     return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
-  // ---------------- collection (ultra-rare giant variants) ----------------
-  const COLLECTION_ITEMS = [
-    { key:'egghead_overlord', name:'豆男(オーバーロード)', odds:'1 / 13,000', img: IMG_SPRITE, tint:'sepia(1) saturate(7) hue-rotate(-35deg) brightness(1.3) contrast(1.15)', chance: 1/13000 },
-    { key:'egghead_unreal', name:'豆男(アンリアル)', odds:'1 / 11,500', img: IMG_SPRITE, tint:'sepia(1) saturate(5) hue-rotate(75deg) brightness(1.25)', chance: 1/11500 },
-    { key:'egghead_champion', name:'豆男(チャンピオン)', odds:'1 / 10,000', img: IMG_SPRITE, tint:'sepia(1) saturate(5) hue-rotate(290deg) brightness(1.25)', chance: 1/10000 },
-    { key:'egghead_master', name:'豆男(マスター)', odds:'1 / 8,500', img: IMG_SPRITE, tint:'sepia(1) saturate(4) hue-rotate(230deg) brightness(1.25)', chance: 1/8500 },
-    { key:'egghead_diamond', name:'豆男(ダイヤモンド)', odds:'1 / 7,000', img: IMG_SPRITE, tint:'sepia(1) saturate(4) hue-rotate(160deg) brightness(1.35)', chance: 1/7000 },
-    { key:'egghead_platinum', name:'豆男(プラチナ)', odds:'1 / 5,500', img: IMG_SPRITE, tint:'sepia(1) saturate(2.5) hue-rotate(120deg) brightness(1.3)', chance: 1/5500 },
-    { key:'egghead_gold', name:'豆男(ゴールド)', odds:'1 / 4,000', img: IMG_SPRITE, tint:'sepia(1) saturate(4.5) hue-rotate(5deg) brightness(1.25)', chance: 1/4000 },
-    { key:'egghead_silver', name:'豆男(シルバー)', odds:'1 / 2,500', img: IMG_SPRITE, tint:'grayscale(1) brightness(1.35) contrast(1.1)', chance: 1/2500 },
-    { key:'egghead_bronze', name:'豆男(ブロンズ)', odds:'1 / 1,000', img: IMG_SPRITE, tint:'sepia(1) saturate(1.6) hue-rotate(-15deg) brightness(0.95)', chance: 1/1000 }
-  ];
-
-  function loadCollection(){
-    try{
-      return JSON.parse(localStorage.getItem('hiraikunCollection')||'{}');
-    }catch(e){ return {}; }
-  }
-  function saveCollection(coll){
-    try{ localStorage.setItem('hiraikunCollection', JSON.stringify(coll)); }catch(e){}
-  }
-  function unlockCollectionItem(key){
-    const coll = loadCollection();
-    if(coll[key]) return false;
-    coll[key] = true;
-    saveCollection(coll);
-    return true;
-  }
-  function renderCollection(){
-    const coll = loadCollection();
-    collectionGrid.innerHTML = COLLECTION_ITEMS.map(item=>{
-      const unlocked = !!coll[item.key];
-      if(unlocked){
-        return '<div class="collCard"><img src="'+item.img+'" style="filter:'+item.tint+' drop-shadow(0 2px 6px rgba(0,0,0,0.5));" alt=""><div class="collName">'+escapeHtml(item.name)+'</div><div class="collOdds">'+item.odds+'</div></div>';
-      }
-      return '<div class="collCard locked"><div class="collSilhouette">？</div><div class="collName">？？？</div><div class="collOdds">'+item.odds+'</div></div>';
-    }).join('');
-  }
-  collectionBtn.addEventListener('click', ()=>{
-    renderCollection();
-    showScreen(collectionScreen);
-  });
-  collectionBackBtn.addEventListener('click', ()=>{ showScreen(startScreen); });
-
-  let discoveryToastTimer = null;
-  function showDiscoveryToast(name){
-    discoveryToast.textContent = '✨ ' + name + ' を発見！コレクションに追加されました';
-    discoveryToast.classList.add('show');
-    if(discoveryToastTimer) clearTimeout(discoveryToastTimer);
-    discoveryToastTimer = setTimeout(()=>{ discoveryToast.classList.remove('show'); }, 4200);
-  }
-
-  // rolls for a special giant variant; returns the matching COLLECTION_ITEMS entry or null.
-  // checked independently and in rarity order so the rarest variant wins if multiple hit at once.
-  function rollSpecialGiant(){
-    // each item gets its own independent roll at exactly its stated odds;
-    // with a single shared roll, items that share the same rarity would
-    // only ever let the first one in the list actually appear.
-    let best = null;
-    for(const item of COLLECTION_ITEMS){
-      if(Math.random() < item.chance){
-        if(!best || item.chance < best.chance) best = item;
-      }
-    }
-    return best;
-  }
   // ---------------------------------------------------------------------
 
   function openRanking(){
@@ -766,19 +601,7 @@
     el.style.top = ROWS[lane]+'%';
     el.style.left = SPAWN_X+'%';
 
-    const special = rollSpecialGiant();
-    el.innerHTML = '<img src="' + (special ? special.img : IMG_SPRITE) + '">';
-    if(special){
-      el.classList.add('giant-special');
-      el.querySelector('img').style.filter = special.tint + ' drop-shadow(0 0 14px rgba(255,215,80,0.9))';
-      const label = document.createElement('div');
-      label.className = 'giant-special-label';
-      label.textContent = special.name;
-      el.appendChild(label);
-      if(unlockCollectionItem(special.key)){
-        showDiscoveryToast(special.name);
-      }
-    }
+    el.innerHTML = '<img src="' + IMG_SPRITE + '">';
 
     lanesEl.appendChild(el);
     objs.push({ el, lane, t0: performance.now(), dur: fallDuration, resolved:false });
@@ -840,14 +663,6 @@
     requestAnimationFrame(loop);
   }
 
-  let clockMin=42, clockHour=17;
-  setInterval(()=>{
-    if(!running) return;
-    clockMin++;
-    if(clockMin>=60){clockMin=0;clockHour=(clockHour+1)%24;}
-    tsEl.textContent = '2025.10.18\u00A0\u00A0'+String(clockHour).padStart(2,'0')+':'+String(clockMin).padStart(2,'0');
-  }, 3000);
-
   function triggerCatch(){
     gameOver = true; running = false;
     stinger();
@@ -901,7 +716,7 @@
   retryBtn.addEventListener('click', ()=>startGame());
 
   function showScreen(el){
-    [startScreen, overScreen, rankScreen, collectionScreen].forEach(s=>{ if(s) s.style.display='none'; });
+    [startScreen, overScreen, rankScreen].forEach(s=>{ if(s) s.style.display='none'; });
     if(el) el.style.display = 'flex';
   }
 
