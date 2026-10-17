@@ -13,6 +13,9 @@ canvas{display:block;width:100%;height:100%}
 #ov h1{margin:0;font-size:28px}#ov p{margin:0;opacity:.8;line-height:1.5}
 #ov input{padding:10px;font-size:16px;border-radius:8px;border:1px solid #888;background:#fff;color:var(--fg);text-align:center;min-width:200px}
 .nr{display:flex;gap:8px;align-items:center}
+#rl{width:min(92vw,460px);max-height:48vh;overflow-y:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch}
+.rr{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:6px;padding:10px 12px;margin-bottom:6px;border-radius:8px;background:rgba(255,255,255,.78);border:1px solid rgba(0,0,0,.1);text-align:left;text-shadow:none}
+.rr b{color:var(--ac)}.rr i{font-style:normal;font-weight:700}.rr.me{outline:2px solid var(--ac)}.rr span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #ov .nr button{margin-top:0;min-width:0;padding:10px 16px;font-size:15px}
 #ov .nr input{min-width:0;width:170px}
 #ov button{margin-top:10px;min-width:220px;padding:12px 32px;font-size:18px;font-weight:700;border:0;border-radius:99px;background:var(--ac);color:#0d0d14}
@@ -54,16 +57,16 @@ async function saveScore(){const msg=document.getElementById('msg'),name=documen
 try{localStorage.setItem('nm',name)}catch(e){}
 msg.textContent='送信中…';
 try{const r=await fetch(DB+'/ranking.json',{method:'POST',body:JSON.stringify({name:name,score:lastScore,ts:{'.sv':'timestamp'}})});if(!r.ok)throw 0;saved=true;msg.textContent='登録しました！'}catch(e){msg.textContent='登録に失敗しました（通信やルールを確認してください）'}}
-async function showRank(){ov.className='h';ov.innerHTML='<h1>ランキング</h1><div id="rl" style="min-width:240px;line-height:1.8">読み込み中…</div><button id="hm">ホームへ</button>';ov.style.display='flex';document.getElementById('hm').onclick=home;
-try{const r=await fetch(DB+'/ranking.json?orderBy=%22score%22&limitToLast=10');if(!r.ok)throw 0;const d=(await r.json())||{};const a=Object.values(d).sort((x,y)=>y.score-x.score);document.getElementById('rl').innerHTML=a.length?a.map((x,i)=>(i+1)+'. '+esc(x.name)+' — '+x.score.toFixed(1)+'秒').join('<br>'):'まだ記録がありません'}catch(e){const l=document.getElementById('rl');if(l)l.textContent='読み込めませんでした'}}
+async function showRank(){ov.className='h';ov.innerHTML='<h1>ランキング</h1><div class="nr"><input id="nm" maxlength="12" placeholder="ユーザーネーム" value="'+esc(getName())+'"><button id="sn">保存</button></div><p id="msg" style="min-height:1.2em;font-size:13px">'+(getName()?'':'名前を設定するとランキングに登録されます')+'</p><div id="rl">読み込み中…</div><button id="hm">ホームへ</button>';ov.style.display='flex';document.getElementById('hm').onclick=home;document.getElementById('sn').onclick=async()=>{await setName();loadRank()};loadRank()}
+async function loadRank(){const l=document.getElementById('rl');try{const r=await fetch(DB+'/ranking.json?orderBy=%22score%22&limitToLast=50');if(!r.ok)throw 0;const d=(await r.json())||{};const a=Object.values(d).sort((x,y)=>y.score-x.score);const me=getName()?nkey(getName()):'';l.innerHTML=a.length?a.map((x,i)=>'<div class="rr'+(me&&nkey(x.name)===me?' me':'')+'"><b>'+(i+1)+'</b><span>'+esc(x.name)+'</span><i>'+x.score.toFixed(1)+'秒</i></div>').join(''):'まだ記録がありません'}catch(e){if(l)l.textContent='読み込めませんでした'}}
 // 匿名ログイン(REST) + ユーザーネーム登録
 let idt=null,idExp=0,uid=null;
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}return null}
 function nkey(n){return Array.from(n.normalize('NFKC').trim().toLowerCase()).map(c=>c.codePointAt(0).toString(16)).join('_')}
 async function token(){if(idt&&Date.now()<idExp)return idt;const K=firebaseConfig.apiKey,rt=ls('rt');
 if(rt){const r=await fetch('https://securetoken.googleapis.com/v1/token?key='+K,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'grant_type=refresh_token&refresh_token='+encodeURIComponent(rt)});if(r.ok){const d=await r.json();idt=d.id_token;uid=d.user_id;ls('rt',d.refresh_token);idExp=Date.now()+(d.expires_in-120)*1000;return idt}}
-const r=await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='+K,{method:'POST',headers:{'Content-Type':'application/json'},body:'{"returnSecureToken":true}'});if(!r.ok)throw new Error('auth');const d=await r.json();idt=d.idToken;uid=d.localId;ls('rt',d.refreshToken);idExp=Date.now()+(d.expiresIn-120)*1000;return idt}
-async function claimName(name){const key=nkey(name),tk=await token();const g=await fetch(DB+'/names/'+key+'.json');if(!g.ok)throw 0;const cur=await g.json();if(cur)return cur.uid===uid?'ok':'taken';
+const r=await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='+K,{method:'POST',headers:{'Content-Type':'application/json'},body:'{"returnSecureToken":true}'});if(!r.ok){let m='';try{m=(await r.json()).error.message}catch(x){}throw new Error('ログイン失敗 '+m)}const d=await r.json();idt=d.idToken;uid=d.localId;ls('rt',d.refreshToken);idExp=Date.now()+(d.expiresIn-120)*1000;return idt}
+async function claimName(name){const key=nkey(name),tk=await token();const g=await fetch(DB+'/names/'+key+'.json');if(!g.ok)throw new Error('名前の確認に失敗 '+g.status+'（ルール未設定？）');const cur=await g.json();if(cur)return cur.uid===uid?'ok':'taken';
 const p=await fetch(DB+'/names/'+key+'.json?auth='+tk,{method:'PUT',body:JSON.stringify({uid:uid,name:name})});return p.ok?'ok':'taken'}
 async function releaseName(old){const tk=await token(),k=nkey(old);await fetch(DB+'/ranking/'+k+'.json?auth='+tk,{method:'DELETE'});await fetch(DB+'/names/'+k+'.json?auth='+tk,{method:'DELETE'})}
 async function submitBest(){const name=getName(),sc=parseFloat(ls('bs')||'0');if(!name||!(sc>0))return 'none';const tk=await token();const r=await fetch(DB+'/ranking/'+nkey(name)+'.json?auth='+tk,{method:'PUT',body:JSON.stringify({name:name,score:sc,ts:{'.sv':'timestamp'}})});return r.ok?'ok':'ng'}
@@ -72,7 +75,7 @@ if(!name){msg.textContent='名前を入力してください';return}
 const old=getName();if(old&&nkey(old)===nkey(name)){msg.textContent='同じ名前です（大文字・小文字は区別されません）';return}
 msg.textContent='確認中…';
 try{const r=await claimName(name);if(r==='taken'){msg.textContent='その名前はすでに使われています';return}
-if(old)await releaseName(old);ls('nm',name);msg.textContent='ユーザーネーム：'+name;submitBest().catch(()=>{})}catch(e){msg.textContent='通信に失敗しました'}}
+if(old)await releaseName(old);ls('nm',name);msg.textContent='ユーザーネーム：'+name;submitBest().catch(()=>{})}catch(e){msg.textContent='通信に失敗しました：'+(e&&e.message?e.message:e)}}
 async function autoSubmit(){const msg=document.getElementById('msg'),prev=parseFloat(ls('bs')||'0'),nb=lastScore>prev;if(nb)ls('bs',String(lastScore));
 if(!getName()){msg.textContent='ホームで名前を設定するとランキングに登録されます';return}
 if(!nb){msg.textContent='自己ベスト：'+prev.toFixed(1)+'秒';return}
