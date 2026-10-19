@@ -31,7 +31,7 @@ canvas{display:block;width:100%;height:100%}
 #knob{position:absolute;left:35px;top:35px;width:60px;height:60px;border-radius:50%;background:rgba(0,179,122,.75)}
 </style></head><body>
 <canvas id="c"></canvas>
-<div id="hud"><span id="sc">0.0秒</span><button id="mt" style="pointer-events:auto;background:none;border:0;font-size:22px;color:inherit;padding:0 8px">🔊</button><span id="bs">BEST 0.0</span></div>
+<div id="hud"><span id="sc">0.0秒</span><button id="mt" style="pointer-events:auto;background:none;border:0;font-size:14px;font-weight:700;color:inherit;padding:0 8px">音ON</button><span id="bs">BEST 0.0</span></div>
 <div class="zn" id="zl"><span>◀<small>長押し：反時計回り</small></span></div><div class="zn" id="zr"><span>▶<small>長押し：時計回り</small></span></div>
 <div id="joy"><div id="knob"></div></div>
 <div id="ov"></div>
@@ -65,7 +65,7 @@ try{localStorage.setItem('nm',name)}catch(e){}
 msg.textContent='送信中…';
 try{const r=await fetch(DB+'/ranking.json',{method:'POST',body:JSON.stringify({name:name,score:lastScore,ts:{'.sv':'timestamp'}})});if(!r.ok)throw 0;saved=true;msg.textContent='登録しました！'}catch(e){msg.textContent='登録に失敗しました（通信やルールを確認してください）'}}
 async function showRank(){ov.className='h';ov.innerHTML='<h1>ランキング</h1><div class="nr"><input id="nm" maxlength="12" placeholder="ユーザーネーム" value="'+esc(getName())+'"><button id="sn">保存</button></div><p id="msg" style="min-height:1.2em;font-size:13px">'+(getName()?'':'名前を設定するとランキングに登録されます')+'</p><div id="rl">読み込み中…</div><button id="hm">ホームへ</button>';ov.style.display='flex';document.getElementById('hm').onclick=home;document.getElementById('sn').onclick=async()=>{await setName();loadRank()};loadRank()}
-async function loadRank(){const l=document.getElementById('rl');try{const r=await fetch(DB+'/ranking.json?orderBy=%22score%22&limitToLast=20');if(!r.ok)throw 0;const d=(await r.json())||{};const a=Object.values(d).sort((x,y)=>y.score-x.score);const me=getName()?nkey(getName()):'';l.innerHTML=a.length?a.map((x,i)=>'<div class="rr'+(i<4?' r'+(i+1):'')+(me&&nkey(x.name)===me?' me':'')+'"><b>'+(['🥇','🥈','🥉','💎'][i]||(i+1))+'</b><span>'+esc(x.name)+'</span><i>'+x.score.toFixed(1)+'秒</i></div>').join(''):'まだ記録がありません'}catch(e){if(l)l.textContent='読み込めませんでした'}}
+async function loadRank(){const l=document.getElementById('rl');try{const r=await fetch(DB+'/ranking.json?orderBy=%22score%22&limitToLast=300');if(!r.ok)throw 0;const d=(await r.json())||{};const m={};Object.values(d).forEach(x=>{if(!x||typeof x.score!=='number')return;const n=String(x.name||'名無し'),k=nkey(n);if(!m[k]||x.score>m[k].score)m[k]={name:n,score:x.score}});const a=Object.values(m).sort((x,y)=>y.score-x.score).slice(0,20);const me=getName()?nkey(getName()):'';l.innerHTML=a.length?a.map((x,i)=>'<div class="rr'+(i<4?' r'+(i+1):'')+(me&&nkey(x.name)===me?' me':'')+'"><b>'+(i+1)+'</b><span>'+esc(x.name)+'</span><i>'+x.score.toFixed(1)+'秒</i></div>').join(''):'まだ記録がありません'}catch(e){if(l)l.textContent='読み込めませんでした'}}
 // 匿名ログイン(REST) + ユーザーネーム登録
 let idt=null,idExp=0,uid=null;
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}return null}
@@ -110,7 +110,7 @@ nextT+=SP;stp++}}
 function bgmStart(){if(!ac||bgmT)return;nextT=ac.currentTime+.1;stp=0;bgmT=setInterval(sched,40)}
 function bgmStop(){clearInterval(bgmT);bgmT=null;if(window.speechSynthesis)speechSynthesis.cancel()}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)bgmStop();else if(run)bgmStart()});
-document.getElementById('mt').onclick=function(){muted=!muted;this.textContent=muted?'🔇':'🔊';if(mg)mg.gain.value=muted?0:.7;if(muted&&window.speechSynthesis)speechSynthesis.cancel()};
+document.getElementById('mt').onclick=function(){muted=!muted;this.textContent=muted?'音OFF':'音ON';if(mg)mg.gain.value=muted?0:.7;if(muted&&window.speechSynthesis)speechSynthesis.cancel()};
 // game
 let pa=-Math.PI/2,heads=[],t=0,spawn=0,run=false,best=0,last=0;
 const ov=document.getElementById('ov'),sc=document.getElementById('sc'),bs=document.getElementById('bs');
