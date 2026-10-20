@@ -40,6 +40,7 @@ canvas{display:block;width:100%;height:100%}
 @keyframes pp{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
 .pt{position:absolute;bottom:-12px;width:7px;height:7px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);animation:rise 2.6s linear infinite;z-index:1}
 @keyframes rise{to{transform:translateY(-110vh);opacity:0}}
+.pf{outline:3px solid #ff9800!important;outline-offset:2px}
 .gc{animation:pp .5s cubic-bezier(.2,1.4,.4,1) both}
 .stg{position:relative;width:60vmin;height:60vmin;display:flex;align-items:center;justify-content:center}
 .disc{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#fff 0,#fff 20%,var(--c) 50%,transparent 72%);animation:dsc 1s ease-out both}
@@ -201,7 +202,7 @@ let pts='',ri='',rg='';if(ti>=4)for(let k=0;k<(o8?44:26);k++)pts+='<i class="pt"
 for(let k=0;k<3+ti;k++)ri+='<i class="rgi" style="animation-delay:'+(k*.25)+'s"></i>';
 for(let k=0;k<2+Math.ceil(ti/2);k++)rg+='<i class="rg" style="animation-delay:'+(k*.45)+'s"></i>';
 ov.innerHTML='<div class="gxs'+(o8?' sk2':'')+'" style="--c:'+T.c+';--t1:'+t1+'ms'+(o8?';background:radial-gradient(circle,#3a0010,#000)':'')+'"><div class="ry" id="ry"></div>'+pts+'<div class="orbw" id="ow">'+ri+'<div class="orb"></div></div><div id="rv"></div><div class="fl" id="fl"></div><p style="position:absolute;bottom:4%;opacity:.55;font-size:13px">タップでスキップ</p></div>';
-const done=()=>{gxT.forEach(clearTimeout);ov.onclick=null;gachaScreen(i)};ov.onclick=done;
+const done=()=>{gxT.forEach(clearTimeout);ov.onclick=null;gachaScreen(i)};setTimeout(()=>{ov.onclick=done},400);
 tone(120,t1/1000,'sawtooth',.07,0,1200);if(o8)tone(60,t1/1000,'sine',.2,0,400);
 gxT.push(setTimeout(()=>{document.getElementById('ow').style.display='none';document.getElementById('fl').classList.add('on');if(ti>=2)document.getElementById('ry').classList.add('on');
 document.getElementById('rv').innerHTML='<div class="stg"><div class="disc"></div>'+rg+'</div>';tone(70,1,'sine',.5,0,28);nz(.6,.3,0,700)},t1));
@@ -220,9 +221,9 @@ function loop(now){
   const dt=Math.min(.05,(now-last)/1000);last=now;t+=dt;
   // player: move only along the circle
   const maxW=5.5;
-  let mag=Math.hypot(stick.x,stick.y);
-  if(mag>.3){const d=norm(Math.atan2(stick.y,stick.x)-pa);pa+=Math.max(-maxW*dt,Math.min(maxW*dt,d))}
-  const kx=(keys.ArrowRight||keys.d?1:0)-(keys.ArrowLeft||keys.a?1:0)+td;
+  const sv=Math.hypot(stick.x,stick.y)>.3?stick:padS;let mag=Math.hypot(sv.x,sv.y);
+  if(mag>.3){const d=norm(Math.atan2(sv.y,sv.x)-pa);pa+=Math.max(-maxW*dt,Math.min(maxW*dt,d))}
+  const kx=(keys.ArrowRight||keys.d?1:0)-(keys.ArrowLeft||keys.a?1:0)+td+padX;
   if(kx)pa+=kx*maxW*dt*.8;
   pa=norm(pa);
   // spawn
@@ -255,4 +256,35 @@ function loop(now){
 function over(){run=false;ov.className='';lastScore=Math.round(t*10)/10;const gain=Math.floor(t/10);addCoins(gain);bgmStop();sfx.over();best=Math.max(best,t);bs.textContent='BEST '+best.toFixed(1);
   ov.innerHTML='<h1>ゲームオーバー</h1><p>記録：'+t.toFixed(1)+'秒　コイン +'+gain+'（所持 '+coin+'）</p><button id="go">もう一度</button><button id="hm">ホームへ</button><p id="msg" style="min-height:1.5em"></p>';
   ov.style.display='flex';document.getElementById('go').onclick=start;autoSubmit();document.getElementById('hm').onclick=home}
+
+// --- ゲームパッド (Switch / PS / Xbox) ---
+let padEl=null,padKey='',padS={x:0,y:0},padX=0,padOn=false,padPrev=[],padRepT=0,padLastDir='';
+addEventListener('pointerdown',()=>{padOn=false;if(padEl)padEl.classList.remove('pf')});
+function padGet(){const l=navigator.getGamepads?navigator.getGamepads():[];for(const g of l)if(g&&g.connected)return g;return null}
+function padCands(){return [...ov.querySelectorAll('button:not(:disabled),input,.zc:not(.no)')].filter(e=>e.offsetParent!==null)}
+function padSetEl(e){if(padEl)padEl.classList.remove('pf');padEl=e;if(e&&padOn){e.classList.add('pf');if(e.scrollIntoView)e.scrollIntoView({block:'nearest'})}}
+function padFix(){const k=(ov.querySelector('h1')||{}).textContent||ov.className,c=padCands();
+if(k!==padKey||!padEl||!ov.contains(padEl)){padKey=k;const pf=ov.querySelector('#go,#pl');padSetEl(pf&&c.includes(pf)?pf:(c[0]||null))}
+else if(padOn&&!padEl.classList.contains('pf'))padSetEl(padEl)}
+function padMove(dx,dy){const c=padCands();if(!padEl){padSetEl(c[0]||null);return}
+const r=padEl.getBoundingClientRect(),x0=r.left+r.width/2,y0=r.top+r.height/2;let best=null,bs=1e9;
+c.forEach(e=>{if(e===padEl)return;const q=e.getBoundingClientRect(),ex=q.left+q.width/2-x0,ey=q.top+q.height/2-y0,al=ex*dx+ey*dy;if(al<=4)return;const sc=al+Math.abs(ex*dy-ey*dx)*2;if(sc<bs){bs=sc;best=e}});
+if(best)padSetEl(best);else if(dy&&document.getElementById('rl'))document.getElementById('rl').scrollTop+=dy*90}
+function padLoop(now){const g=padGet();
+if(!g){padS={x:0,y:0};padX=0;requestAnimationFrame(padLoop);return}
+const B=i=>!!(g.buttons[i]&&g.buttons[i].pressed),ax=g.axes[0]||0,ay=g.axes[1]||0,dz=.35;
+let sx=Math.abs(ax)>dz?ax:0,sy=Math.abs(ay)>dz?ay:0;
+if(!sx&&!sy){sx=(B(15)?1:0)-(B(14)?1:0);sy=(B(13)?1:0)-(B(12)?1:0)}
+if(!padOn&&(sx||sy||g.buttons.some(b=>b.pressed)))padOn=true;
+const pr=padPrev,edge=i=>B(i)&&!pr[i];
+if(run){padS={x:sx,y:sy};padX=((B(5)||B(7))?1:0)-((B(4)||B(6))?1:0)}
+else{padS={x:0,y:0};padX=0;
+if(ov.style.display!=='none'){padFix();
+if(ov.className==='gx'){if(edge(0)||edge(1)||edge(9))ov.click()}
+else{const mx=Math.abs(sx)>=Math.abs(sy)?Math.sign(sx):0,my=mx?0:Math.sign(sy);
+if(mx||my){const dir=mx+','+my;if(dir!==padLastDir){padLastDir=dir;padRepT=now+350;padMove(mx,my)}else if(now>padRepT){padRepT=now+130;padMove(mx,my)}}else padLastDir='';
+if((edge(0)||edge(1))&&padEl){if(padEl.tagName==='INPUT')padEl.focus();else padEl.click()}
+if(edge(2)||edge(3)||edge(8)){const h=ov.querySelector('#hm');if(h)h.click()}}}}
+padPrev=g.buttons.map(b=>b.pressed);requestAnimationFrame(padLoop)}
+requestAnimationFrame(padLoop);
 </script></body></html>
