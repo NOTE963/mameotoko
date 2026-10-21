@@ -289,14 +289,11 @@ padPrev=g.buttons.map(b=>b.pressed);requestAnimationFrame(padLoop)}
 requestAnimationFrame(padLoop);
 
 // --- 世界の存在数 (Firebase) ---
-let gcount=null;
-let gStat='';
-async function gLoad(){try{const r=await fetch(DB+'/gacha/count.json');if(!r.ok){gStat='存在数の読み取りに失敗 '+r.status+'（ルールに gacha を追加）';return}const d=(await r.json())||{};gcount={};for(let i=0;i<SKINS.length;i++)gcount[i]=d[i]||0}catch(e){gStat='通信できません'}}
-async function gBackfill(){if(ls('gs'))return;const u={};let n=0;for(const k in own)if(own[k]>0){u[k]={'.sv':{increment:Math.min(own[k],50)}};n++}if(!n)return;
-let tk;try{tk=await token()}catch(e){throw new Error('匿名ログインに失敗（匿名認証を有効に）')}
-const r=await fetch(DB+'/gacha/count.json?auth='+tk,{method:'PATCH',body:JSON.stringify(u)});if(!r.ok)throw new Error('存在数の書き込みを拒否 '+r.status+'（ルールに gacha を追加）');ls('gs','1')}
-async function gSync(){gStat='';try{await gBackfill()}catch(e){gStat=e.message||'同期に失敗'}await gLoad()}
-async function gInc(i){try{const tk=await token();const r=await fetch(DB+'/gacha/count/'+i+'.json?auth='+tk,{method:'PUT',body:JSON.stringify({'.sv':{increment:1}})});if(r.ok&&gcount)gcount[i]=(gcount[i]||0)+1}catch(e){}}
-function gPull(i){if(!ls('gs'))gBackfill().catch(()=>{});else gInc(i)}
-gBackfill().catch(()=>{});
+let gcount=null,gStat='';
+async function syncInv(){let tk;try{tk=await token()}catch(e){throw new Error('匿名ログインに失敗（匿名認証を有効に）')}
+const r=await fetch(DB+'/inv/'+uid+'.json?auth='+tk,{method:'PUT',body:JSON.stringify(own)});if(!r.ok)throw new Error('所持データの保存を拒否 '+r.status+'（ルールに inv を追加）')}
+async function gLoad(){try{const r=await fetch(DB+'/inv.json');if(!r.ok){gStat='存在数の読み取りに失敗 '+r.status+'（ルールに inv を追加）';return}const d=(await r.json())||{},c={};for(let i=0;i<SKINS.length;i++)c[i]=0;for(const u in d){const m=d[u];if(m&&typeof m==='object')for(const k in m){const v=+m[k];if(c[k]!==undefined&&v>0)c[k]+=v}}gcount=c}catch(e){gStat='通信できません'}}
+async function gSync(){gStat='';try{await syncInv()}catch(e){gStat=e.message||'同期に失敗'}await gLoad()}
+function gPull(){gSync()}
+gSync();
 </script></body></html>
