@@ -289,7 +289,7 @@ function loop(now){
   ctx.fillStyle='#00b37a';ctx.beginPath();ctx.arc(px,py,13,0,7);ctx.fill();
   sc.textContent=t.toFixed(1)+'秒';
   requestAnimationFrame(loop)}
-function over(){run=false;ov.className='';lastScore=Math.round(t*10)/10;const gain=Math.floor(t/10);addCoins(gain);bgmStop();sfx.over();best=Math.max(best,t);bs.textContent='BEST '+best.toFixed(1);
+function over(){run=false;ov.className='';lastScore=Math.round(t*10)/10;const gain=Math.floor(t/20);addCoins(gain);bgmStop();sfx.over();best=Math.max(best,t);bs.textContent='BEST '+best.toFixed(1);
   ov.innerHTML='<h1>ゲームオーバー</h1><p>記録：'+t.toFixed(1)+'秒　コイン +'+gain+'（所持 '+coin+'）</p><button id="go">もう一度</button><button id="hm">ホームへ</button><p id="msg" style="min-height:1.5em"></p>';
   ov.style.display='flex';document.getElementById('go').onclick=start;autoSubmit();document.getElementById('hm').onclick=home}
 
