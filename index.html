@@ -318,7 +318,7 @@ ov.style.display='flex';
 document.getElementById('go').onclick=()=>{const c=DAILY[n-1];addCoins(c);ls('dl',ymd(new Date()));ls('ds',String(n));toast('デイリーボーナス +'+c+'コイン（'+n+'日目）');home()};
 document.getElementById('hm').onclick=()=>{dSkip=true;home()}}
 // --- コード入力（各コード1回まで） ---
-const CODES={'シャクレくん':180};
+const CODES={'シャクレくん':180'アフロ上方修正':45'ロン毛上方修正':45};
 function codeList(){const u=jget('uc',{});return '<div id="cl" style="font-size:13px;line-height:1.6;text-shadow:0 0 8px #fff,0 0 4px #fff">コード一覧'+Object.keys(CODES).map(k=>'<br>'+(u[k]?'<s style="opacity:.5">':'')+esc(k)+'　+'+CODES[k]+'コイン'+(u[k]?'</s>（使用済み）':'')).join('')+'</div>'}
 function useCode(){const inp=document.getElementById('cd'),msg=document.getElementById('msg');
 const raw=(inp.value||'').normalize('NFKC').replace(/\s+/g,'');
