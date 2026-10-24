@@ -123,22 +123,18 @@ msg.textContent='送信中…';
 try{const r=await fetch(DB+'/ranking.json',{method:'POST',body:JSON.stringify({name:name,score:lastScore,ts:{'.sv':'timestamp'}})});if(!r.ok)throw 0;saved=true;msg.textContent='登録しました！'}catch(e){msg.textContent='登録に失敗しました（通信やルールを確認してください）'}}
 let rankTab=1,rankMode=1;
 function rankSelect(){ov.className='h';
-ov.innerHTML='<h1>ランキング</h1><button id="go">ノーマル</button><p style="font-size:13px">全期間・2週間（今までのランキング）</p><button id="sp">スーパー</button><p style="font-size:13px">全期間のみ（オーバーロードあり／なし）</p><button id="hm">ホームへ</button>';
+ov.innerHTML='<h1>ランキング</h1><button id="go">ノーマル</button><p style="font-size:13px">全期間・シャクレデー（月〜金）</p><button id="sp">スーパー</button><p style="font-size:13px">全期間（オーバーロードあり／なし）・シャクレデー</p><button id="hm">ホームへ</button>';
 ov.style.display='flex';document.getElementById('go').onclick=()=>showRank(1,1);document.getElementById('sp').onclick=()=>showRank(1,2);document.getElementById('hm').onclick=home}
 async function showRank(tab,md){rankTab=typeof tab==='number'?tab:rankTab;rankMode=typeof md==='number'?md:rankMode;ov.className='h';
-const lab=rankMode===2?['オーバーロードなし','オーバーロードあり']:['全期間','2週間'];
-ov.innerHTML='<h1>ランキング'+(rankMode===2?'（スーパー）':'')+'</h1><div class="br tabs"><button id="t1" class="'+(rankTab===1?'act':'')+'" style="font-size:13px">'+lab[0]+'</button><button id="t2" class="'+(rankTab===2?'act':'')+'" style="font-size:13px">'+lab[1]+'</button></div><div class="nr"><input id="nm" maxlength="12" placeholder="ユーザーネーム" value="'+esc(getName())+'"><button id="sn">保存</button></div><p id="msg" style="min-height:1.2em;font-size:13px">'+(getName()?'':'名前を設定するとランキングに登録されます')+'</p><p id="ri" style="min-height:1.2em;font-size:12px"></p><div id="rl">読み込み中…</div><button id="hm">戻る</button>';
-ov.style.display='flex';document.getElementById('hm').onclick=rankSelect;document.getElementById('t1').onclick=()=>showRank(1,rankMode);document.getElementById('t2').onclick=()=>showRank(2,rankMode);
+const lab=rankMode===2?['オーバーロードなし','オーバーロードあり','シャクレデー']:['全期間','シャクレデー'];if(rankTab>lab.length)rankTab=1;
+ov.innerHTML='<h1>ランキング'+(rankMode===2?'（スーパー）':'')+'</h1><div class="br tabs">'+lab.map((x,i)=>'<button id="t'+(i+1)+'" class="'+(rankTab===i+1?'act':'')+'" style="font-size:13px">'+x+'</button>').join('')+'</div><div class="nr"><input id="nm" maxlength="12" placeholder="ユーザーネーム" value="'+esc(getName())+'"><button id="sn">保存</button></div><p id="msg" style="min-height:1.2em;font-size:13px">'+(getName()?'':'名前を設定するとランキングに登録されます')+'</p><p id="ri" style="min-height:2.4em;font-size:12px"></p><div id="rl">読み込み中…</div><button id="hm">戻る</button>';
+ov.style.display='flex';document.getElementById('hm').onclick=rankSelect;lab.forEach((x,i)=>{document.getElementById('t'+(i+1)).onclick=()=>showRank(i+1,rankMode)});
 document.getElementById('sn').onclick=async()=>{await setName();loadRank()};loadRank()}
-async function loadRank(){const tb=rankTab,md=rankMode,l=document.getElementById('rl'),ri=document.getElementById('ri');
-try{let a;
-if(md===2){ri.textContent=tb===2?'スーパー：オーバーロードを使った記録（全期間）':'スーパー：オーバーロードを使っていない記録（全期間）';
-const r=await fetch(DB+(tb===2?'/rankSO':'/rankS')+'.json?orderBy=%22score%22&limitToLast=25');if(!r.ok)throw 0;const d=(await r.json())||{};
-a=Object.values(d).filter(x=>x&&typeof x.score==='number').map(x=>({name:String(x.name||'名無し'),score:x.score})).sort((x,y)=>y.score-x.score)}
-else if(tb===2){ri.textContent='リセットまで '+resetLeft()+'（日曜0時）／ 上位4名にコイン '+REW.join('・')+' 枚';
-const r=await fetch(DB+'/rank2/'+curP()+'.json?orderBy=%22score%22&limitToLast=25');if(!r.ok)throw 0;const d=(await r.json())||{};
-a=Object.values(d).filter(x=>x&&typeof x.score==='number').map(x=>({name:String(x.name||'名無し'),score:x.score})).sort((x,y)=>y.score-x.score)}
-else{ri.textContent='';const r=await fetch(DB+'/ranking.json?orderBy=%22score%22&limitToLast=300');if(!r.ok)throw 0;const d=(await r.json())||{};const m={};
+async function loadRank(){const tb=rankTab,md=rankMode,l=document.getElementById('rl'),ri=document.getElementById('ri'),day=md===2?tb===3:tb===2;
+try{let a;const get=async u=>{const r=await fetch(DB+u);if(!r.ok)throw 0;return (await r.json())||{}};const norm2=d=>Object.values(d).filter(x=>x&&typeof x.score==='number').map(x=>({name:String(x.name||'名無し'),score:x.score})).sort((x,y)=>y.score-x.score);
+if(day){ri.innerHTML=wInfo()+(md===2?'<br>オーバーロード禁止 ／ ':'<br>')+'上位4名にコイン '+(md===2?REWS:REW).join('・')+' 枚';a=norm2(await get((md===2?'/rankDS/':'/rankD/')+wk()+'.json?orderBy=%22score%22&limitToLast=25'))}
+else if(md===2){ri.textContent=tb===2?'スーパー：オーバーロードを使った記録（全期間）':'スーパー：オーバーロードを使っていない記録（全期間）';a=norm2(await get((tb===2?'/rankSO':'/rankS')+'.json?orderBy=%22score%22&limitToLast=25'))}
+else{ri.textContent='';const d=await get('/ranking.json?orderBy=%22score%22&limitToLast=300'),m={};
 Object.values(d).forEach(x=>{if(!x||typeof x.score!=='number')return;const n=String(x.name||'名無し'),k=nkey(n);if(!m[k]||x.score>m[k].score)m[k]={name:n,score:x.score}});
 a=Object.values(m).sort((x,y)=>y.score-x.score).slice(0,25)}
 if(tb!==rankTab||md!==rankMode)return;const me=getName()?nkey(getName()):'';
@@ -154,20 +150,20 @@ if(rt){const r=await fetch('https://securetoken.googleapis.com/v1/token?key='+K,
 const r=await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='+K,{method:'POST',headers:{'Content-Type':'application/json'},body:'{"returnSecureToken":true}'});if(!r.ok){let m='';try{m=(await r.json()).error.message}catch(x){}throw new Error('ログイン失敗 '+m)}const d=await r.json();idt=d.idToken;uid=d.localId;ls('rt',d.refreshToken);idExp=Date.now()+(d.expiresIn-120)*1000;return idt}
 async function claimName(name){const key=nkey(name),tk=await token();const g=await fetch(DB+'/names/'+key+'.json');if(!g.ok)throw new Error('名前の確認に失敗 '+g.status+'（ルール未設定？）');const cur=await g.json();if(cur)return cur.uid===uid?'ok':'taken';
 const p=await fetch(DB+'/names/'+key+'.json?auth='+tk,{method:'PUT',body:JSON.stringify({uid:uid,name:name})});return p.ok?'ok':'taken'}
-async function releaseName(old){const tk=await token(),k=nkey(old);await fetch(DB+'/ranking/'+k+'.json?auth='+tk,{method:'DELETE'});await fetch(DB+'/rankS/'+k+'.json?auth='+tk,{method:'DELETE'});await fetch(DB+'/rankSO/'+k+'.json?auth='+tk,{method:'DELETE'});await fetch(DB+'/rank2/'+curP()+'/'+k+'.json?auth='+tk,{method:'DELETE'});await fetch(DB+'/names/'+k+'.json?auth='+tk,{method:'DELETE'})}
+async function releaseName(old){const tk=await token(),k=nkey(old);await fetch(DB+'/ranking/'+k+'.json?auth='+tk,{method:'DELETE'});await fetch(DB+'/rankS/'+k+'.json?auth='+tk,{method:'DELETE'});await fetch(DB+'/rankSO/'+k+'.json?auth='+tk,{method:'DELETE'});await fetch(DB+'/rank2/'+curP()+'/'+k+'.json?auth='+tk,{method:'DELETE'});await fetch(DB+'/rankD/'+wk()+'/'+k+'.json?auth='+tk,{method:'DELETE'});await fetch(DB+'/rankDS/'+wk()+'/'+k+'.json?auth='+tk,{method:'DELETE'});await fetch(DB+'/names/'+k+'.json?auth='+tk,{method:'DELETE'})}
 async function submitBest(){const name=getName(),sc=parseFloat(ls('bs')||'0');if(!name||!(sc>0))return 'none';const tk=await token();const r=await fetch(DB+'/ranking/'+nkey(name)+'.json?auth='+tk,{method:'PUT',body:JSON.stringify({name:name,score:sc,ts:{'.sv':'timestamp'}})});return r.ok?'ok':'ng'}
 async function setName(){const msg=document.getElementById('msg'),name=document.getElementById('nm').value.normalize('NFKC').trim().slice(0,12);
 if(!name){msg.textContent='名前を入力してください';return}
 const old=getName();if(old&&nkey(old)===nkey(name)){msg.textContent='同じ名前です（大文字・小文字は区別されません）';return}
 msg.textContent='確認中…';
 try{const r=await claimName(name);if(r==='taken'){msg.textContent='その名前はすでに使われています';return}
-if(old)await releaseName(old);ls('nm',name);msg.textContent='ユーザーネーム：'+name;submitBest().catch(()=>{});submitS(0).catch(()=>{});submitS(1).catch(()=>{});{const b2=jget('b2',{p:-1,s:0});if(b2.p===curP()&&b2.s>0)submit2(b2.p,b2.s).catch(()=>{})}claimRewards().catch(()=>{})}catch(e){msg.textContent='通信に失敗しました：'+(e&&e.message?e.message:e)}}
-async function autoSubmit(){const msg=document.getElementById('msg');if(mode===2){const so=SKINS[sel].r==='O'?1:0,bk=so?'bsSO':'bsS',prevS=parseFloat(ls(bk)||'0'),nbS=lastScore>prevS;if(nbS)ls(bk,String(lastScore));
+if(old)await releaseName(old);ls('nm',name);msg.textContent='ユーザーネーム：'+name;submitBest().catch(()=>{});submitS(0).catch(()=>{});submitS(1).catch(()=>{});{const bd=jget('bd',{p:-1,n:0,s:0});if(bd.p===wk()&&wOpen()){if(bd.n>0)submitD(bd.p,bd.n,false).catch(()=>{});if(bd.s>0)submitD(bd.p,bd.s,true).catch(()=>{})}}claimRewards().catch(()=>{});claimWeekly().catch(()=>{})}catch(e){msg.textContent='通信に失敗しました：'+(e&&e.message?e.message:e)}}
+async function autoSubmit(){const msg=document.getElementById('msg');weeklySubmit();if(mode===2){const so=SKINS[sel].r==='O'?1:0,bk=so?'bsSO':'bsS',prevS=parseFloat(ls(bk)||'0'),nbS=lastScore>prevS;if(nbS)ls(bk,String(lastScore));
 if(!getName()){msg.textContent='ホームで名前を設定するとランキングに登録されます';return}
 if(!nbS){msg.textContent=(so?'スーパー（オーバーロード）':'スーパー')+'の自己ベスト：'+prevS.toFixed(1)+'秒';return}
 msg.textContent='スーパーベスト更新！登録中…';
 try{msg.textContent=(await submitS(so))?'スーパーベスト更新！ランキングに登録しました':'登録に失敗しました'}catch(e){msg.textContent='登録に失敗しました'}return}const prev=parseFloat(ls('bs')||'0'),nb=lastScore>prev;if(nb)ls('bs',String(lastScore));
-const p=curP();let b2=jget('b2',{p:-1,s:0});if(b2.p!==p)b2={p:p,s:0};const nb2=lastScore>b2.s;if(nb2){b2.s=lastScore;jset('b2',b2)}
+const p=curP();let b2=jget('b2',{p:-1,s:0});if(b2.p!==p)b2={p:p,s:0};const nb2=false;
 if(!getName()){msg.textContent='ホームで名前を設定するとランキングに登録されます';return}
 if(!nb&&!nb2){msg.textContent='自己ベスト：'+prev.toFixed(1)+'秒';return}
 msg.textContent='ベスト更新！登録中…';
@@ -374,7 +370,7 @@ function loop(now){
   sc.textContent=t.toFixed(1)+'秒';
   requestAnimationFrame(loop)}
 function over(){run=false;updAb();ov.className='';lastScore=Math.round(t*10)/10;const gain=Math.floor(t/10)*2;addCoins(gain);bgmStop();sfx.over();best=Math.max(best,t);bs.textContent='BEST '+best.toFixed(1);
-  ov.innerHTML='<h1>ゲームオーバー</h1><p>記録：'+t.toFixed(1)+'秒　コイン +'+gain+'（所持 '+coin+'）</p><button id="go">もう一度</button><button id="hm">ホームへ</button><p id="msg" style="min-height:1.5em"></p>';
+  ov.innerHTML='<h1>ゲームオーバー</h1><p>記録：'+t.toFixed(1)+'秒　コイン +'+gain+'（所持 '+coin+'）</p><button id="go">もう一度</button><button id="hm">ホームへ</button><p id="msg" style="min-height:1.5em"></p><p id="msg2" style="font-size:13px;min-height:1.2em"></p>';
   ov.style.display='flex';document.getElementById('go').onclick=start;autoSubmit();document.getElementById('hm').onclick=home}
 
 // --- ゲームパッド (Switch / PS / Xbox) ---
@@ -417,17 +413,39 @@ async function gSync(){gStat='';try{await syncInv()}catch(e){gStat=e.message||'�
 function gPull(){gSync()}
 gSync();
 
+// --- シャクレデー（月〜金・週ごとにリセット） ---
+const WA=1791126000000,WK=604800000,WOPEN=432000000,REW=[180,70,50,30],REWS=[90,50,30,10];
+function wk(){return Math.floor((Date.now()-WA)/WK)}
+function wOff(){return (Date.now()-WA)%WK}
+function wOpen(){return wOff()<WOPEN}
+function wInfo(){const o=wOff(),ms=o<WOPEN?WOPEN-o:WK-o,d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5);return o<WOPEN?'シャクレデー開催中（月〜金）<br>終了まで '+d+'日'+h+'時間':'今週のシャクレデーは終了（結果発表）<br>次は月曜0時から（あと'+d+'日'+h+'時間）'}
+async function submitD(w,sc,sup){const tk=await token();const r=await fetch(DB+(sup?'/rankDS/':'/rankD/')+w+'/'+nkey(getName())+'.json?auth='+tk,{method:'PUT',body:JSON.stringify({name:getName(),score:sc,p:w,ts:{'.sv':'timestamp'}})});return r.ok}
+async function weeklySubmit(){const m2=document.getElementById('msg2');if(!m2)return;const sup=mode===2;
+if(sup&&SKINS[sel].r==='O'){m2.textContent='シャクレデー：オーバーロードは対象外です';return}
+if(!wOpen()){m2.textContent='シャクレデーは月〜金です（今は結果発表中）';return}
+if(!getName())return;
+const w=wk();let bd=jget('bd',{p:-1,n:0,s:0});if(bd.p!==w)bd={p:w,n:0,s:0};const key=sup?'s':'n';
+if(lastScore<=bd[key]){m2.textContent='シャクレデーの自己ベスト：'+bd[key].toFixed(1)+'秒';return}
+bd[key]=lastScore;jset('bd',bd);m2.textContent='シャクレデー更新！登録中…';
+try{m2.textContent=(await submitD(w,lastScore,sup))?'シャクレデーのランキングに登録しました':'シャクレデーの登録に失敗しました'}catch(e){m2.textContent='シャクレデーの登録に失敗しました'}}
+async function claimWeekly(){const w=wk(),ended=wOff()>=WOPEN?w:w-1;if(ls('rwd')===null||ls('rwd')==='')ls('rwd',String(ended));const nm=getName();if(!nm)return;
+const last=+ls('rwd');if(last>=ended)return;const key=nkey(nm);let total=0;const got=[];
+for(let q=last+1;q<=ended&&q<=last+8;q++){for(const [path,label,RW] of [['rankD','ノーマル',REW],['rankDS','スーパー',REWS]]){
+const r=await fetch(DB+'/'+path+'/'+q+'.json?orderBy=%22score%22&limitToLast=4');if(!r.ok)return;const d=(await r.json())||{};
+const top=Object.entries(d).filter(([k,x])=>x&&typeof x.score==='number').sort((a,b)=>b[1].score-a[1].score);const i=top.findIndex(([k])=>k===key);
+if(i>=0&&i<4){total+=RW[i];got.push(label+(i+1)+'位')}}ls('rwd',String(q))}
+if(total>0){addCoins(total);toast('シャクレデー '+got.join('・')+'！ コイン +'+total);if(document.getElementById('zk'))home()}}
 // --- 2週間ランキング：期間・報酬 ---
-const P0=1791644400000,PW=1209600000,REW=[50,30,20,10];
+const P0=1791644400000,PW=1209600000,REW2=[50,30,20,10];
 function curP(){return Math.floor((Date.now()-P0)/PW)}
 function resetLeft(){const ms=P0+(curP()+1)*PW-Date.now(),d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5);return d+'日'+h+'時間'}
 let toastT=null;
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.opacity=1;clearTimeout(toastT);toastT=setTimeout(()=>{t.style.opacity=0},6000)}
-async function claimRewards(){const cp=curP();if(ls('rw')===null||ls('rw')==='')ls('rw',String(cp-1));const nm=getName();if(!nm)return;
-let last=+ls('rw');if(last>=cp-1)return;const key=nkey(nm);let total=0;const got=[];
-for(let q=last+1;q<=cp-1&&q<=last+10;q++){const r=await fetch(DB+'/rank2/'+q+'.json?orderBy=%22score%22&limitToLast=4');if(!r.ok)break;const d=(await r.json())||{};
+async function claimRewards(){if(ls('rw')!==null&&+ls('rw')>=0)return;const cp=curP();if(ls('rw')===null||ls('rw')==='')ls('rw',String(cp-1));const nm=getName();if(!nm)return;
+let last=+ls('rw');if(last>=cp)return;const key=nkey(nm);let total=0;const got=[];
+for(let q=last+1;q<=cp&&q<=last+10;q++){const r=await fetch(DB+'/rank2/'+q+'.json?orderBy=%22score%22&limitToLast=4');if(!r.ok)break;const d=(await r.json())||{};
 const top=Object.entries(d).filter(([k,x])=>x&&typeof x.score==='number').sort((a,b)=>b[1].score-a[1].score);const i=top.findIndex(([k])=>k===key);
-if(i>=0&&i<4){total+=REW[i];got.push((i+1)+'位')}ls('rw',String(q))}
-if(total>0){addCoins(total);toast('2週間ランキング '+got.join('・')+'！ コイン +'+total);if(document.getElementById('zk'))home()}}
-claimRewards().catch(()=>{});
+if(i>=0&&i<4){total+=REW2[i];got.push((i+1)+'位')}ls('rw',String(q))}
+if(total>0){addCoins(total);toast('2週間ランキング（アップデート前の報酬）'+got.join('・')+'！ コイン +'+total);if(document.getElementById('zk'))home()}}
+claimRewards().catch(()=>{});claimWeekly().catch(()=>{});
 </script></body></html>
